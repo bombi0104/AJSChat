@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="ChatApp">
+  <head>
+    <meta charset="utf-8"> 
+    <link rel="stylesheet" href="stylesheets/style1.css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+    <script src="javascripts/script.js"></script>
+    <script src="javascripts/app.js"></script>
+  </head>
+
+  <body>
+    <div class='main-panel' ng-controller="MainCtrl">
+      <div class='left-panel'>
+        <div class='header-panel center-text'>
+          <b>Messager</b>
+        </div>
+        <div class='contact-panel'>
+          <div class="list-group">
+<!--             <a href="#" class="list-group-item active">First item</a>
+            <a href="#" class="list-group-item disabled">Second item</a> -->
+            <a href="#" class="list-group-item" ng-repeat="group in groups"><span class="badge">{{group.unread}}</span>{{group.name}}</a>
+          </div>
+        </div>
+      </div>
+      <div class='right-panel'>
+        <div class='header-panel center-text'>header panel</div>
+        <div class='chat-content'>
+          <ul class="list-group">
+            <li class="list-group-item" ng-repeat="msg in messages">
+              <div class='div-left nickname'>{{msg.from}}</div>
+              <div class='div-right msg-date'>{{msg.datetime}}</div>
+              <br/>
+              <div>{{msg.message}}</div>
+            </li>
+          </ul>
+        </div>
+        <div class='input-panel'>
+            <div style="height:30px">Input message header</div>
+            <textarea style="height:70px" class="form-control" placeholder="Enter your message here..."></textarea>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
