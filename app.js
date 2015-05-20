@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -54,6 +55,15 @@ app.use(function(err, req, res, next) {
     message: err.message,
     error: {}
   });
+});
+
+// Connect mongodb
+mongoose.connect('mongodb://localhost/AJSChat', function(err) {
+    if(err) {
+        console.log('connection error', err);
+    } else {
+        console.log('connection successful');
+    }
 });
 
 
