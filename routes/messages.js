@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 var mongoose = require('mongoose');
+var ObjectId = require('mongoose').Types.ObjectId;
 var Message = require('../models/Message.js');
 
 /* GET messages listing. */
@@ -14,10 +15,23 @@ router.get('/', function(req, res, next) {
 
 /* POST /messages */
 router.post('/', function(req, res, next) {
-  Message.create(req.body, function (err, post) {
-    if (err) return next(err);
-    res.json(post);
+  var message = new Message({
+    group_id:ObjectId(req.body.group_id),
+    from_user_id:ObjectId(req.body.from_user_id),
+    content:req.body.content
   });
+
+  message.save(function(err){
+    if (err) {
+      return next(err);
+    }
+    res.json(message);
+  });
+
+  // Message.create(req.body, function (err, post) {
+  //   if (err) return next(err);
+  //   res.json(post);
+  // });
 });
 
 /* GET /messages/id */
