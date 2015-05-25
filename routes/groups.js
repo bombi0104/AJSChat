@@ -17,56 +17,25 @@ router.get('/', function(req, res, next) {
 router.post('/', function(req, res, next) {
   console.log('req.body : ', req.body);
   var group = new Group({name:req.body.name});
-  group.save(function(err){
-    if (err) {
-      console.log('error 2');
-      return next(err);
-    }
-    //res.json(group);
-    req.body.users.forEach(function(userid){
-      console.log('Add user to group : ', userid);
-      group.addUser(userid);
+  req.body.users.forEach(function(userid){
+    User.findById(userid, function (err, user) {
+      if (err) {
+        console.log('error 1', userid);
+        return next(err);
+      }
+      group.users.push(user); //Co van de gi khong ?
+
+      console.log('01-Group =========', group);
+     
+      group.save(function(err){
+        if (err) {
+          console.log('error 2');
+          return next(err);
+        }
+      });
     });
-
-    res.json(group);
   });
-
-  // req.body.users.forEach(function(userid){
-  //   console.log('userid = ', userid);
-  //   User.findById(userid, function (err, user) {
-  //     if (err) {
-  //       console.log('error 1', userid);
-  //       return next(err);
-  //     }
-  //     console.log(user);
-  //     group.users.push(user); //Co van de gi khong ?
-
-  //     group.save(function(err){
-  //       if (err) {
-  //         console.log('error 2');
-  //       return next(err);
-  //       }
-  //     });
-  //   });
-  // });
-
-
-
-  // Khong save o day thi khong dua vao db dc thi phai. 
-  // Co cach nao dua object ra ngoai de save khong ?
-  // group.save(function(err){
-  //   if (err) {
-  //     console.log('error 2');
-  //     return next(err);
-  //   }
-  //   res.json(group);
-  // });
-
-
-  // Group.create(req.body, function (err, post) {
-  //   if (err) return next(err);
-  //   res.json(post);
-  // });
+  res.json(group);
 });
 
 /* GET /groups/id */

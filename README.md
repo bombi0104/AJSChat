@@ -13,5 +13,5 @@ or call nodemon
 
 Start MongoDB
 > sudo mongod --config /etc/mongod.conf --fork
-
+> mongod --config /usr/local/etc/mongod.conf --fork  (MacOS)
 ///
