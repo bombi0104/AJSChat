@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 var mongoose = require('mongoose');
+var ObjectId = require('mongoose').Types.ObjectId;
 var Group = require('../models/Group.js');
 var User = require('../models/User.js');
 
@@ -18,24 +19,15 @@ router.post('/', function(req, res, next) {
   console.log('req.body : ', req.body);
   var group = new Group({name:req.body.name});
   req.body.users.forEach(function(userid){
-    User.findById(userid, function (err, user) {
-      if (err) {
-        console.log('error 1', userid);
-        return next(err);
-      }
-      group.users.push(user); //Co van de gi khong ?
-
-      console.log('01-Group =========', group);
-     
-      group.save(function(err){
-        if (err) {
-          console.log('error 2');
-          return next(err);
-        }
-      });
-    });
+    group.users.push(ObjectId(userid));
   });
-  res.json(group);
+
+  group.save(function(err){
+    if (err) {
+      return next(err);
+    }
+    res.json(group);
+  });
 });
 
 /* GET /groups/id */

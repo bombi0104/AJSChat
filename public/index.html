@@ -19,7 +19,7 @@
           <div class="list-group">
 <!--             <a href="#" class="list-group-item active">First item</a>
             <a href="#" class="list-group-item disabled">Second item</a> -->
-            <a href="#" class="list-group-item" ng-repeat="group in groups"><span class="badge">{{group.unread}}</span>{{group.name}}</a>
+            <a href="#" ng-click="selectGroup(group._id)" class="list-group-item" ng-repeat="group in groups"><span class="badge">{{group.unread}}</span>{{group.name}}</a>
           </div>
         </div>
       </div>
@@ -28,10 +28,10 @@
         <div class='chat-content'>
           <ul class="list-group">
             <li class="list-group-item" ng-repeat="msg in messages">
-              <div class='div-left nickname'>{{msg.from}}</div>
-              <div class='div-right msg-date'>{{msg.datetime}}</div>
+              <div class='div-left nickname'>{{msg.from_user_id.name}}</div>
+              <div class='div-right msg-date'>{{msg.updated_at}}</div>
               <br/>
-              <div>{{msg.message}}</div>
+              <div>{{msg.content}}</div>
             </li>
           </ul>
         </div>

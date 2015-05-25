@@ -16,8 +16,8 @@ router.get('/', function(req, res, next) {
 /* POST /messages */
 router.post('/', function(req, res, next) {
   var message = new Message({
-    group_id:ObjectId(req.body.group_id),
-    from_user_id:ObjectId(req.body.from_user_id),
+    group:ObjectId(req.body.group),
+    from_user:ObjectId(req.body.from_user),
     content:req.body.content
   });
 
@@ -27,11 +27,6 @@ router.post('/', function(req, res, next) {
     }
     res.json(message);
   });
-
-  // Message.create(req.body, function (err, post) {
-  //   if (err) return next(err);
-  //   res.json(post);
-  // });
 });
 
 /* GET /messages/id */
@@ -40,6 +35,17 @@ router.get('/:id', function(req, res, next) {
     if (err) return next(err);
     res.json(post);
   });
+});
+
+/* GET /messages/group/id */
+router.get('/group/:id', function(req, res, next) {
+  Message
+    .find({group:req.params.id})
+    .populate('from_user', 'name')
+    .exec(function (err, msgs) {
+      if (err) return next(err);
+      res.json(msgs);
+    });
 });
 
 /* PUT /messages/:id */

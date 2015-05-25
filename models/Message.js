@@ -2,15 +2,15 @@ var mongoose = require('mongoose'),
 		Schema = mongoose.Schema;
 
 var MessageSchema = new Schema({
-  group_id: {
+  group: {
   	type: Schema.ObjectId,
   	ref: 'Group'
   },
-  from_user_id: {
+  from_user: {
   	type: Schema.ObjectId,
   	ref: 'User'
   },
-  to_users_id: [{
+  to_users: [{
   	type: Schema.ObjectId,
   	ref:'User'
   }],
