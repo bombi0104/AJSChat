@@ -1,10 +1,19 @@
-var mongoose = require('mongoose');
-var ObjectId = mongoose.Schema.Types.ObjectId;
+var mongoose = require('mongoose'),
+		Schema = mongoose.Schema;
 
-var MessageSchema = new mongoose.Schema({
-  group_id: {type:ObjectId, ref:'Group'},
-  from_user_id: {type:ObjectId, ref:'User'},
-  to_users_id: [{type:ObjectId, ref:'User'}],
+var MessageSchema = new Schema({
+  group_id: {
+  	type: Schema.ObjectId,
+  	ref: 'Group'
+  },
+  from_user_id: {
+  	type: Schema.ObjectId,
+  	ref: 'User'
+  },
+  to_users_id: [{
+  	type: Schema.ObjectId,
+  	ref:'User'
+  }],
   content: String,
   created_at: { type: Date, default: Date.now },
   updated_at: { type: Date, default: Date.now },
