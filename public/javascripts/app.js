@@ -3,7 +3,7 @@ var app = angular.module('ChatApp', []);
 app.controller('MainCtrl', function($scope, $http) {
 	$scope.name = 'World';
     $scope.currentGroup = null;
-	$http.get('http://172.30.46.99:3000/groups').
+	$http.get('/groups').
         success(function(data) {
             $scope.groups = data;
         });
@@ -27,7 +27,7 @@ app.controller('MainCtrl', function($scope, $http) {
         });
 
         if (group.messages == null){
-            $http.get('http://172.30.46.99:3000/messages/group/' + group._id).
+            $http.get('/messages/group/' + group._id).
                 success(function(data) {
                     group.messages = data;
                     $scope.messages = group.messages;
@@ -50,7 +50,7 @@ app.controller('MainCtrl', function($scope, $http) {
                 content:$scope.inputMsg
             }
 
-            $http.post('http://172.30.46.99:3000/messages', msgObj)
+            $http.post('/messages', msgObj)
                 .success(function(data) {
                     //$scope.messages = data;
                     // Reset inputed message
