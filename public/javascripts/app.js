@@ -1,6 +1,7 @@
-var app = angular.module('ChatApp', []);
+var app = angular.module('ChatApp', ['luegg.directives']);
 
 app.controller('MainCtrl', function($scope, $http) {
+    $scope.glued = true;
 	$scope.name = null;
     $scope.token = null;
     $scope.currentGroup = null;
@@ -30,7 +31,7 @@ app.controller('MainCtrl', function($scope, $http) {
             });
 
             $scope.login_name = "";
-                $scope.login_pass = "";
+            $scope.login_pass = "";
     }
 
 	
@@ -65,6 +66,9 @@ app.controller('MainCtrl', function($scope, $http) {
     $scope.sendMsg = function(e) {
         // When touch shift-enter
         if (e.shiftKey && (e.keyCode == 13)){
+            if (!$scope.user || !$scope.currentGroup)
+                return;
+
             //alert($scope.inputMsg);
             var msgObj = {
                 group:$scope.currentGroup,
