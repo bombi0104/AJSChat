@@ -2,16 +2,38 @@ var app = angular.module('ChatApp', []);
 
 app.controller('MainCtrl', function($scope, $http) {
 	$scope.name = 'World';
+    $scope.token = null;
     $scope.currentGroup = null;
-	$http.get('/groups').
-        success(function(data) {
-            $scope.groups = data;
-        });
 
-	// $http.get('http://localhost:3000/messages.json').
-	// success(function(data) {
-	//     $scope.messages = data;
-	// });
+    $scope.login = function() {
+        var jsonData = {
+            username:$scope.login_name,
+            password:$scope.login_pass
+        }
+        
+        $http.post('/users/login', jsonData)
+            .success(function(data) {
+                $scope.name = data.name;
+                $scope.user = data;
+
+                $scope.login_name = "";
+                $scope.login_pass = "";
+
+                $http.get('/groups/user/' + data._id).
+                    success(function(groups) {
+                        $scope.groups = groups;
+                    }
+                );
+            })
+            .error(function(data, status, headers, config) {
+                alert("Login error");
+            });
+
+            $scope.login_name = "";
+                $scope.login_pass = "";
+    }
+
+	
 
     $scope.selectGroup = function(group) {
         $scope.currentGroup = group._id;
@@ -46,7 +68,7 @@ app.controller('MainCtrl', function($scope, $http) {
             //alert($scope.inputMsg);
             var msgObj = {
                 group:$scope.currentGroup,
-                from_user:"555d49ee8383e7bc044136e3",
+                from_user:$scope.user._id,
                 content:$scope.inputMsg
             }
 

@@ -28,6 +28,19 @@ router.get('/:id', function(req, res, next) {
   });
 });
 
+/* POST /login */
+router.post('/login', function(req, res, next) {
+  console.log("Login body : ",req.body);
+  User.findOne({name:req.body.username, password:req.body.password})
+      .select('name token')
+      .exec(function (err, user) {
+        if (err) return handleError(err);
+
+        console.log("Found user : ",user);
+        res.json(user);
+      })
+});
+
 /* PUT /users/:id */
 router.put('/:id', function(req, res, next) {
   User.findByIdAndUpdate(req.params.id, req.body, function (err, post) {

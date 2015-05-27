@@ -24,8 +24,6 @@ angular.module('ChatApp.chat', ['ngRoute'])
 
     $scope.selectGroup = function(group) {
         $scope.currentGroup = group._id;
-        // $scope.Logs = room.chats;
-
         // Update selected row.
         $scope.groups.forEach(function(r) {
             if (r._id != group._id) {
@@ -45,6 +43,7 @@ angular.module('ChatApp.chat', ['ngRoute'])
         } else {
             $scope.messages = group.messages;
         }
+        
 
     	
 	};

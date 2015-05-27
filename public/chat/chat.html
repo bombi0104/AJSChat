@@ -1,11 +1,11 @@
-<div class='main-panel'>
+<!-- <div class='main-panel'> -->
       <div class='left-panel'>
         <div class='header-panel center-text'>
           <b>Messager</b>
         </div>
         <div class='contact-panel'>
           <div class="list-group">
-            <a href="#" ng-click="selectGroup(group)" class="list-group-item"
+            <a ng-click="selectGroup(group)" class="list-group-item"
               ng-class="{'active':group.active}" ng-repeat="group in groups">
               <span class="badge">{{group.unread}}</span>{{group.name}}</a>
           </div>
@@ -30,4 +30,4 @@
             <!-- <input type="text" class="form-control" ng-model="inputMsg" ng-keyup="$event.keyCode == 13 ? sendMsg() : null"> -->
         </div>
       </div>
-    </div>
+    <!-- </div> -->
