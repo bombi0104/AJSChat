@@ -1,7 +1,7 @@
 var app = angular.module('ChatApp', []);
 
 app.controller('MainCtrl', function($scope, $http) {
-	$scope.name = 'World';
+	$scope.name = null;
     $scope.token = null;
     $scope.currentGroup = null;
 
@@ -20,7 +20,7 @@ app.controller('MainCtrl', function($scope, $http) {
                 $scope.login_pass = "";
 
                 $http.get('/groups/user/' + data._id).
-                    success(function(groups) {
+                    success(function(groups) {  
                         $scope.groups = groups;
                     }
                 );
@@ -77,12 +77,11 @@ app.controller('MainCtrl', function($scope, $http) {
                     //$scope.messages = data;
                     // Reset inputed message
                     $scope.inputMsg = "";
+                    
+                    data.from_user = {name:$scope.name};
                     $scope.messages.push(data);
                 }
             );
-
-            
-            
         }
     };
 });

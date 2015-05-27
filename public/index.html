@@ -27,10 +27,10 @@
       <div class='right-panel'>
         <div class='header-panel' align="right">
           <div>Name : {{name}}</div>
-          <div>
+          <div ng-show="!name">
             <input type="text" ng-model="login_name" placeholder="Username" style="width: 120px">
-            <input type="password" ng-model="login_pass" placeholder="Password" style="width: 120px">
-            <input type="button" ng-click="login();" value="Login">
+            <input type="password" ng-model="login_pass" placeholder="Password" style="width: 120px"
+                    ng-keyup="$event.keyCode == 13 ? login() : null">
           </div>
         </div>
         <div class='chat-content'>
