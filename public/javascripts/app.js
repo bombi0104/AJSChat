@@ -23,15 +23,16 @@ app.controller('MainCtrl', function($scope, $http) {
                 $http.get('/groups/user/' + data._id).
                     success(function(groups) {  
                         $scope.groups = groups;
+                        initUnread();
                     }
                 );
-
 
                 // live-updates
                 var chatEvents = new EventSource('/stream/' + data._id);
                 chatEvents.addEventListener("chat", function(event) {
                     var chat = JSON.parse(event.data);
                     console.log(chat);
+                    receiveMsg(chat);
                 });
                 
             })
@@ -85,22 +86,28 @@ app.controller('MainCtrl', function($scope, $http) {
                 content:$scope.inputMsg
             }
 
-            // Send realtime message
-            $http.post('/stream', msgObj)
+            $http.post('/messages', msgObj)
                 .success(function(data) {
-                    //$scope.messages = data;
                     // Reset inputed message
                     $scope.inputMsg = "";
-                    
-                    data.from_user = {name:$scope.name};
                     $scope.messages.push(data);
-
-                    $http.post('/messages', msgObj)
-                        .success(function(data) {
-                            console.log(data);
-                        });
                 }
             );
         }
     };
+
+    var receiveMsg = function(msg){
+        $scope.groups.forEach(function(r) {
+            if (r._id == msg.group) {
+                r.messages.push(msg);
+                r.unread = r.unread + 1;
+            }
+        });
+    }
+
+    var initUnread = function(){
+        $scope.groups.forEach(function(r) {
+            r.unread = 0;
+        });
+    }
 });

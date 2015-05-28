@@ -22,8 +22,11 @@ exports.registUser = function(req, res){
     	console.log("Remove connection onClose : ", req.params.uid);  
   	});
        
-  	function sendChat(chat) {
-    	sse("chat", chat);
+    function sendChat(chat, users) {
+      console.log("sendChat's users : ", users);
+      if (users.indexOf(req.params.uid) >= 0 ){
+        sse("chat", chat);
+      }
   	}
 }
 
@@ -38,9 +41,8 @@ exports.chat = function(req, res){
 /**
  * Send message to all connection
  */
-exports.sendMessage = function(req, res, next){
-	eventEmitter.emit('Chat', req.body);
-	next();
+exports.sendMessage = function(data, users){
+	eventEmitter.emit('Chat', data, users);
 }
 
 /**

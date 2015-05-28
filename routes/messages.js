@@ -5,6 +5,11 @@ var mongoose = require('mongoose');
 var ObjectId = require('mongoose').Types.ObjectId;
 var Message = require('../models/Message.js');
 
+var streamController = require('../controllers/stream.controller.js');
+var groupsController = require('../controllers/groups.controller.js');
+var messagesController = require('../controllers/messages.controller.js');
+var usersController = require('../controllers/users.controller.js');
+
 /* GET messages listing. */
 router.get('/', function(req, res, next) {
 	Message.find(function (err, msgs) {
@@ -14,20 +19,8 @@ router.get('/', function(req, res, next) {
 });
 
 /* POST /messages */
-router.post('/', function(req, res, next) {
-  var message = new Message({
-    group:ObjectId(req.body.group),
-    from_user:ObjectId(req.body.from_user),
-    content:req.body.content
-  });
+router.post('/', groupsController.getUsersInGroup, usersController.getFromUser, messagesController.create);
 
-  message.save(function(err){
-    if (err) {
-      return next(err);
-    }
-    res.json(message);
-  });
-});
 
 /* GET /messages/id */
 router.get('/:id', function(req, res, next) {
