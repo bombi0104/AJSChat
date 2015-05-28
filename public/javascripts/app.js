@@ -25,6 +25,15 @@ app.controller('MainCtrl', function($scope, $http) {
                         $scope.groups = groups;
                     }
                 );
+
+
+                // live-updates
+                var chatEvents = new EventSource('/stream/' + data._id);
+                chatEvents.addEventListener("chat", function(event) {
+                    var chat = JSON.parse(event.data);
+                    console.log(chat);
+                });
+                
             })
             .error(function(data, status, headers, config) {
                 alert("Login error");
@@ -76,7 +85,8 @@ app.controller('MainCtrl', function($scope, $http) {
                 content:$scope.inputMsg
             }
 
-            $http.post('/messages', msgObj)
+            // Send realtime message
+            $http.post('/stream', msgObj)
                 .success(function(data) {
                     //$scope.messages = data;
                     // Reset inputed message
@@ -84,6 +94,11 @@ app.controller('MainCtrl', function($scope, $http) {
                     
                     data.from_user = {name:$scope.name};
                     $scope.messages.push(data);
+
+                    $http.post('/messages', msgObj)
+                        .success(function(data) {
+                            console.log(data);
+                        });
                 }
             );
         }

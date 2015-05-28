@@ -10,6 +10,7 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 var groups = require('./routes/groups');
 var messages = require('./routes/messages');
+var stream = require('./routes/stream');
 
 var app = express();
 
@@ -29,6 +30,7 @@ app.use('/', routes);
 app.use('/users', users);
 app.use('/groups', groups);
 app.use('/messages', messages);
+app.use('/stream', stream);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
