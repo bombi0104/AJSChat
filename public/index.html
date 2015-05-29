@@ -7,12 +7,28 @@
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
     <script src="https://cdn.rawgit.com/Luegg/angularjs-scroll-glue/v2.0.5/src/scrollglue.js"></script>
-    <script src="javascripts/script.js"></script>
     <script src="javascripts/app.js"></script>
   </head>
 
   <body>
     <div class='main-panel' ng-controller="MainCtrl">
+    <!-- Login Modal -->
+      <script type="text/ng-template" id="myModalContent.html">
+        <div class="modal-header">
+          <h3 class="modal-title">LOGIN</h3>
+        </div>
+        <div class="modal-body">
+          <input type="text" class="form-control" id="usrname" placeholder="Enter email">
+          <input type="password" class="form-control" id="psw" placeholder="Enter password">
+          <button type="submit" class="btn btn-success btn-block"><span class="glyphicon glyphicon-off"></span> Login</button>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" ng-click="ok()">OK</button>
+          <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+        </div>
+      </script>
+    <!-- Login Modal -->
+
       <div class='left-panel'>
         <div class='header-panel center-text'>
           <b>Messager</b>
@@ -27,11 +43,11 @@
       </div>
       <div class='right-panel'>
         <div class='header-panel'>
-          <div style="float: left; width: 50%; height: 50px;">
+          <div class="pull-left"> 
             <div style="padding: 10px 0px 0px 10px">
             <p><font size="5" color="blue">{{groups[currentGroupIndex].name}}</font></p></div>
           </div>
-          <div align="right" style="float: left; width: 50%">
+          <div class="pull-right">
             <div>Name : {{name}}</div>
             <div ng-show="!name">
               <input type="text" ng-model="login_name" placeholder="Username" style="width: 120px">
@@ -43,8 +59,8 @@
         <div class='chat-content' scroll-glue>
           <ul class="list-group">
             <li class="list-group-item" ng-repeat="msg in groups[currentGroupIndex].messages">
-              <div class='div-left nickname'>{{msg.from_user.name}}</div>
-              <div class='div-right msg-date'>{{msg.updated_at}}</div>
+              <div class='pull-left nickname'>{{msg.from_user.name}}</div>
+              <div class='pull-right msg-date'>{{msg.updated_at}}</div>
               <br/>
               <pre>{{msg.content}}</pre>
             </li>
