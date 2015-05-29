@@ -21,7 +21,7 @@
           <div class="list-group">
             <a href="#" ng-click="selectGroup(group)" class="list-group-item" 
               ng-class="{'active':group.active}" ng-repeat="group in groups">
-              <span class="badge">{{group.unread}}</span>{{group.name}}</a>
+              <span class="badge" ng-hide="group.unread == 0">{{group.unread}}</span>{{group.name}}</a>
           </div>
         </div>
       </div>
@@ -36,11 +36,11 @@
         </div>
         <div class='chat-content' scroll-glue>
           <ul class="list-group">
-            <li class="list-group-item" ng-repeat="msg in messages">
+            <li class="list-group-item" ng-repeat="msg in groups[currentGroupIndex].messages">
               <div class='div-left nickname'>{{msg.from_user.name}}</div>
               <div class='div-right msg-date'>{{msg.updated_at}}</div>
               <br/>
-              <div>{{msg.content}}</div>
+              <pre>{{msg.content}}</pre>
             </li>
           </ul>
         </div>
