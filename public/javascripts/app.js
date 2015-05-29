@@ -1,12 +1,30 @@
-var app = angular.module('ChatApp', ['luegg.directives']);
+var app = angular.module('ChatApp', ['luegg.directives', 'ui.bootstrap']);
 
-app.controller('MainCtrl', function($scope, $http) {
+app.controller('MainCtrl', function($scope, $http, $modal) {
     $scope.glued = true;
 	$scope.name = null;
     $scope.token = null;
     $scope.currentGroup = null;
     $scope.currentGroupIndex = 0;
     $scope.groups = [];
+
+    $scope.openModal = function () {
+        var modalInstance = $modal.open({
+            animation: true,
+            templateUrl: 'myModalContent.html',
+            controller: 'ModalInstanceCtrl',
+            size: "sm",
+            resolve: {
+                items: function () {
+                    
+                }
+            }
+        });
+    };
+
+    if ($scope.name == null) {
+        $scope.openModal();
+    }
 
     $scope.login = function() {
         var jsonData = {
@@ -164,4 +182,18 @@ app.controller('MainCtrl', function($scope, $http) {
           });
         }
     }
+});
+
+// Please note that $modalInstance represents a modal window (instance) dependency.
+// It is not the same as the $modal service used above.
+
+app.controller('ModalInstanceCtrl', function ($scope, $modalInstance) {
+
+  $scope.ok = function () {
+    $modalInstance.close($scope.selected.item);
+  };
+
+  $scope.cancel = function () {
+    $modalInstance.dismiss('cancel');
+  };
 });
