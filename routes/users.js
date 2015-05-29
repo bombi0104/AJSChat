@@ -1,61 +1,24 @@
 var express = require('express');
 var router = express.Router();
-
-var mongoose = require('mongoose');
-var User = require('../models/User.js');
+var Users = require('../controllers/users.controller.js');
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-	User.find(function (err, users) {
-		if (err) return next(err);
-		res.json(users);
-	});
-});
+router.get('/', Users.getAll);
 
 /* POST /users */
-router.post('/', function(req, res, next) {
-  User.create(req.body, function (err, post) {
-    if (err) return next(err);
-    res.json(post);
-  });
-});
+router.post('/', Users.create);
 
 /* GET /users/id */
-router.get('/:id', function(req, res, next) {
-  User.findById(req.params.id, function (err, post) {
-    if (err) return next(err);
-    res.json(post);
-  });
-});
+router.get('/:id', Users.getById);
 
 /* POST /login */
-router.post('/login', function(req, res, next) {
-  console.log("Login body : ",req.body);
-  User.findOne({name:req.body.username, password:req.body.password})
-      .select('name token')
-      .exec(function (err, user) {
-        if (err) return handleError(err);
-
-        console.log("Found user : ",user);
-        res.json(user);
-      })
-});
+router.post('/login', Users.login);
 
 /* PUT /users/:id */
-router.put('/:id', function(req, res, next) {
-  User.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
-    if (err) return next(err);
-    res.json(post);
-  });
-});
+router.put('/:id', Users.edit);
 
 /* DELETE /users/:id */
-router.delete('/:id', function(req, res, next) {
-  User.findByIdAndRemove(req.params.id, req.body, function (err, post) {
-    if (err) return next(err);
-    res.json(post);
-  });
-});
+router.delete('/:id', Users.delete);
 
 
 module.exports = router;

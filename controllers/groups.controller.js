@@ -19,10 +19,78 @@ exports.getUsersInGroup = function(req, res, next){
   });
 }
 
-/**
- * print log
- */
-exports.printlog = function(req, res, next){
-	console.log("user.controller param name = ", req.params.name);
-	// next();
+/* GET groups listing. */
+exports.getAll = function(req, res, next){
+	Group.find(function (err, groups) {
+		if (err) return next(err);
+		res.json(groups);
+	});
+}
+
+/* GET groups by userid */
+exports.getGroupsOfUser = function(req, res, next){
+  Group.find({users : req.params.id})
+  //.populate('from_user', 'name')
+    .exec(function (err, groups) {
+      if (err) return next(err);
+      res.json(groups);
+    });
+}
+
+/* POST /groups */
+exports.createGroup = function(req, res, next) {
+  var group = new Group({name:req.body.name});
+  req.body.users.forEach(function(userid){
+    group.users.push(ObjectId(userid));
+  });
+
+  group.save(function(err){
+    if (err) {
+      return next(err);
+    }
+    res.json(group);
+  });
+}
+
+/* POST /groups/:id/adduser */
+exports.addUserToGroup = function(req, res, next) {
+  console.log('req.body : ', req.body);
+  Group.findById(req.params.id, function (err, group) {
+    if (err) return next(err);
+
+    req.body.users.forEach(function(userid){
+      group.users.push(ObjectId(userid));
+    });
+
+    group.save(function(err){
+      if (err) {
+        return next(err);
+      }
+      res.json(group);
+    });
+  });
+}
+
+/* GET /groups/id */
+exports.getById = function(req, res, next) {
+  Group.findById(req.params.id, function (err, post) {
+    if (err) return next(err);
+    res.json(post);
+  });
+}
+
+/* PUT /groups/:id */
+exports.edit = function(req, res, next) {
+  Group.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
+    if (err) return next(err);
+    res.json(post);
+  });
+}
+
+/* DELETE /groups/:id */
+exports.delete = function(req, res, next) {
+  Group.findByIdAndRemove(req.params.id, req.body, function (err, post) {
+    if (err) return next(err);
+    res.json(post);
+  });
 }

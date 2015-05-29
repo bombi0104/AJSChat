@@ -26,12 +26,18 @@
         </div>
       </div>
       <div class='right-panel'>
-        <div class='header-panel' align="right">
-          <div>Name : {{name}}</div>
-          <div ng-show="!name">
-            <input type="text" ng-model="login_name" placeholder="Username" style="width: 120px">
-            <input type="password" ng-model="login_pass" placeholder="Password" style="width: 120px"
+        <div class='header-panel'>
+          <div style="float: left; width: 50%; height: 50px;">
+            <div style="padding: 10px 0px 0px 10px">
+            <p><font size="5" color="blue">{{groups[currentGroupIndex].name}}</font></p></div>
+          </div>
+          <div align="right" style="float: left; width: 50%">
+            <div>Name : {{name}}</div>
+            <div ng-show="!name">
+              <input type="text" ng-model="login_name" placeholder="Username" style="width: 120px">
+              <input type="password" ng-model="login_pass" placeholder="Password" style="width: 120px"
                     ng-keyup="$event.keyCode == 13 ? login() : null">
+            </div>  
           </div>
         </div>
         <div class='chat-content' scroll-glue>
@@ -48,7 +54,6 @@
             <div style="height:30px">Input message header</div>
             <textarea style="height:70px" class="form-control" ng-model="inputMsg" 
               ng-keyup="sendMsg($event);" placeholder="Enter your message here..."></textarea>
-            <!-- <input type="text" class="form-control" ng-model="inputMsg" ng-keyup="$event.keyCode == 13 ? sendMsg() : null"> -->
         </div>
       </div>
     </div>

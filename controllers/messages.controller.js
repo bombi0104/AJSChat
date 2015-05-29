@@ -10,7 +10,7 @@ var groupsController = require('../controllers/groups.controller.js');
 /**
  * Get all messages.
  */
-exports.getMessages = function(req, res){
+exports.getAll = function(req, res){
   Message.find(function (err, msgs) {
     if (err) return next(err);
     res.json(msgs);
@@ -71,7 +71,7 @@ exports.getMessageInGroup = function(req, res) {
 /**
  * Edit a message
  */
-exports.editMessage = function(req, res){
+exports.edit = function(req, res){
   Message.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
     if (err) return next(err);
     res.json(post);
@@ -81,7 +81,7 @@ exports.editMessage = function(req, res){
 /**
  * Delete message by id
  */
-exports.deleteById = function(req, res){
+exports.delete = function(req, res){
   Message.findByIdAndRemove(req.params.id, req.body, function (err, post) {
     if (err) return next(err);
     res.json(post);
