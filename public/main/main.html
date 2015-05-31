@@ -1,0 +1,22 @@
+<div class="container-fluid no-pading">
+	<div class="left-panel pull-left">
+		<div class="header-panel"></div>  
+		<div class="contact-panel">
+			<div class="list-group">
+  				<a class="list-group-item" ng-repeat="contact in contacts" ng-click="selectGroup(contact)">{{contact}}</a>
+			</div>
+		</div>
+	</div>
+	<div class="right-panel pull-right">
+		<div class="header-panel">
+			<div>{{group}}</div>
+		</div>
+		<div class="message-panel scroll-glue">
+			<pre ng-repeat="msg in Messages">{{msg}}</pre>
+		</div>
+		<div class="chat-panel">
+			<textarea class="form-control" ng-model="inputMsg" ng-keyup="sendMsg($event);" placeholder="Enter your message here..."></textarea>
+
+		</div>
+	</div>
+</div>

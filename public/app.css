@@ -1,0 +1,47 @@
+body {
+  /*padding: 50px;*/
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+.no-margin {
+	margin: 0px;
+}
+
+.no-pading {
+	padding: 0px;
+}
+
+.left-panel {
+	background-color: blue;
+	padding: 0px;
+	border-right: 2px solid grey;
+	width: 250px;
+}
+
+.right-panel {
+	background-color: red;
+	padding: 0px;
+	width: calc(100% - 250px)
+}
+
+.header-panel {
+	height: 70px;
+	background-color: grey;
+}
+
+.contact-panel {
+	height: calc(100vh - 70px);
+	background-color: white;
+	overflow: scroll;
+}
+
+.chat-panel {
+	height: 100px;
+	border-top: 2px solid grey;
+}
+
+.message-panel {
+	height: calc(100vh - 170px);
+	background-color: white;
+	overflow: scroll;
+}
