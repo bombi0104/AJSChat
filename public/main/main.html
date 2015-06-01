@@ -3,20 +3,43 @@
 		<div class="header-panel"></div>  
 		<div class="contact-panel">
 			<div class="list-group">
-  				<a class="list-group-item" ng-repeat="contact in contacts" ng-click="selectGroup(contact)">{{contact}}</a>
+  				<a class="list-group-item" ng-repeat="gr in groups" ng-click="selectGroup(gr)" ng-class="{'active':gr.active}">
+              		<span class="badge" ng-hide="gr.unread == 0">{{gr.unread}}</span>
+              		<span class="glyphicon glyphicon-th-list"></span>
+              		{{gr.name}}
+              	</a>
 			</div>
 		</div>
 	</div>
 	<div class="right-panel pull-right">
 		<div class="header-panel">
-			<div>{{group}}</div>
+			<div class="pull-left">{{group.name}}</div>
+			<div class="pull-right">
+				{{user.name}}
+				<br />
+				<div >
+					<span class="glyphicon glyphicon-user" 
+						ng-repeat="user in group.users" 
+						tooltip-placement="bottom"
+						tooltip="{{user.name}}">　</span>
+					<span class="glyphicon glyphicon-plus" ng-click="addUserToGroup();"></span>
+				</div>
+
+			</div>
 		</div>
-		<div class="message-panel scroll-glue">
-			<pre ng-repeat="msg in Messages">{{msg}}</pre>
+		<div class="message-panel" scroll-glue>
+			<ul class="list-group">
+            	<li class="list-group-item" ng-repeat="msg in group.messages">
+	              	<div class='pull-left nickname'>{{msg.from_user.name}}</div>
+	              	<div class='pull-right msg-date'>{{msg.updated_at}}</div>
+	              	<br />
+	              	<pre>{{msg.content}}</pre>
+            	</li>
+          	</ul>
+			<!-- <pre ng-repeat="msg in group.messages">{{msg.content}}</pre> -->
 		</div>
 		<div class="chat-panel">
 			<textarea class="form-control" ng-model="inputMsg" ng-keyup="sendMsg($event);" placeholder="Enter your message here..."></textarea>
-
 		</div>
 	</div>
 </div>
