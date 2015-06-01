@@ -13,7 +13,8 @@ angular.module('AJSChat.main', [
   });
 }])
 
-.controller('MainCtrl', ['$scope', '$location', 'User', 'Groups', 'Messages', function($scope, $location, User, Groups, Messages) {
+.controller('MainCtrl', ['$scope', '$location', 'User', 'Groups', 'Messages', '$modal', 
+	function($scope, $location, User, Groups, Messages, $modal) {
 	$scope.glued = true;
 	$scope.user = User.me;
 	$scope.groups = {};
@@ -116,6 +117,7 @@ angular.module('AJSChat.main', [
 
 						// Update unread count
 						plusOneToUnread(gr);
+						notifyMe(gr.name, msg.content);
 					}
 				} else {
 					// This group have no chat data
@@ -166,7 +168,89 @@ angular.module('AJSChat.main', [
 	 *
      **/
 	$scope.addUserToGroup = function(){
-		alert("Add user to group");
+		//notifyMe($scope.group.name, $scope.group.messages[0].content);
+		var modalInstance = $modal.open({
+			animation: true,
+			templateUrl: 'addUserToGroup.html',
+			controller: 'ModalInstanceCtrl',
+			size: "lg",  // sm, lg
+			resolve: {
+				group: function () {
+					return $scope.group;
+				},
+				user: function(){
+					return $scope.user;
+				}
+			}
+		});
+
+		modalInstance.result.then(function (selectedItem) {
+			$scope.selected = selectedItem;
+			}, function () {
+				$log.info('Modal dismissed at: ' + new Date());
+			});
 	}
 
+	/**
+	 * Show Notification
+	 * https://developer.mozilla.org/en/docs/Web/API/notification
+     **/
+	var notifyMe = function(groupName, msg){
+        // Let's check if the browser supports notifications
+        if (!("Notification" in window)) {
+            alert("This browser does not support desktop notification");
+        }
+        else if (Notification.permission === "granted") {
+            // If it's okay let's create a notification
+            var options = {
+      			body: msg
+      			// icon: theIcon
+  			}
+            
+            var notification = new Notification(groupName, options);
+        }
+
+          // Otherwise, we need to ask the user for permission
+          // Note, Chrome does not implement the permission static property
+          // So we have to check for NOT 'denied' instead of 'default'
+          else if (Notification.permission !== 'denied') {
+            Notification.requestPermission(function (permission) {
+
+              // Whatever the user answers, we make sure we store the information
+              if(!('permission' in Notification)) {
+                Notification.permission = permission;
+              }
+
+              // If the user is okay, let's create a notification
+              if (permission === "granted") {
+                var notification = new Notification(msg);
+              }
+          });
+        }
+    }
+}])
+
+.controller('ModalInstanceCtrl', ['$scope', '$modalInstance', 'User', function ($scope, $modalInstance, User, _group, _user) {
+	$scope.group = _group;
+	$scope.user = _user;
+	$scope.users = {};
+
+	User.getAll()
+		.success(function(users){
+			if (users != null) {
+				$scope.users = users;
+			}
+		})
+		.error(function(err){
+
+		});
+
+
+	$scope.ok = function () {
+	$modalInstance.close($scope.selected.item);
+	};
+
+	$scope.cancel = function () {
+		$modalInstance.dismiss('cancel');
+	};
 }]);

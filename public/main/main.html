@@ -43,3 +43,38 @@
 		</div>
 	</div>
 </div>
+
+<!-- Add user to group modal -->
+<script type="text/ng-template" id="addUserToGroup.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Users</h3>
+    </div>
+    <div class="modal-body">
+    	<div class="pull-left">
+    		<h2>Users list</h2>
+    		<ul class="list-group">
+            	<li class="list-group-item" ng-repeat="user in users">
+	              	{{user.name}} ({{user.email}})
+            	</li>
+          	</ul>
+    	</div>
+    	<div class="pull-right">
+    	<h2>Groups Users</h2>
+    		<ul class="list-group">
+            	<li class="list-group-item" ng-repeat="user in group.users">
+	              	{{user.name}} ({{user.email}})
+            	</li>
+          	</ul>
+    	</div>
+  //   	<ul>
+		// <li ng-repeat="item in items">
+		// 	<a ng-click="selected.item = item">{{ item }}</a>
+		// </li>
+	// </ul>
+	Selected: <b>{{ selected.item }}</b>    
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="ok()">OK</button>
+        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+    </div>
+</script>

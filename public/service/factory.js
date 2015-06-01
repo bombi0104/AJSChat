@@ -16,6 +16,10 @@ angular.module('AJSChat.factories', [])
         return $http.post(urlBase + '/login', jsonData);
 	}
 
+	_factory.getAll = function(){
+		return $http.get(urlBase);
+	}
+
 
 	return _factory;
 }])
