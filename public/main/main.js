@@ -19,10 +19,32 @@ angular.module('AJSChat.main', [
 	$scope.user = User.me;
 	$scope.groups = {};
 	$scope.group = {}; //Selected group;
+	
+	/**
+	 * Login dialog
+     **/
+	var openLoginDialog = function(){
+		//notifyMe($scope.group.name, $scope.group.messages[0].content);
+		var modalInstance = $modal.open({
+			animation: true,
+			templateUrl: 'LoginTemplete.html',
+			controller: 'LoginCtrl',
+			size: "sm",  // sm, lg
+		});
+
+		modalInstance.result.then(function(user) {
+			$scope.$apply(function(){
+				console.log("Return user = ", user)
+				$scope.user = user;	
+			})
+		});
+	}
+
 
 	if (User.me == null) {
 		// Goto Login page
-		window.location = "#/login";
+// 		window.location = "#/login";
+		openLoginDialog();
 	}
 
 	/**
@@ -190,7 +212,7 @@ angular.module('AJSChat.main', [
 				$log.info('Modal dismissed at: ' + new Date());
 			});
 	}
-
+	
 	/**
 	 * Show Notification
 	 * https://developer.mozilla.org/en/docs/Web/API/notification
@@ -248,6 +270,27 @@ angular.module('AJSChat.main', [
 
 	$scope.ok = function () {
 	$modalInstance.close($scope.selected.item);
+	};
+
+	$scope.cancel = function () {
+		$modalInstance.dismiss('cancel');
+	};
+}])
+
+.controller('LoginCtrl', ['$scope', '$modalInstance', 'User', function ($scope, $modalInstance, User) {
+	$scope.ok = function () {
+		User.login($scope.login_name, $scope.login_pass)
+			.success(function (user) {
+				if (user != null){
+					User.me = user;
+					$modalInstance.close(user);
+				} else {
+					alert("Wrong username or password");
+				}
+	        })
+	        .error(function (error) {
+	            alert(error);
+            });
 	};
 
 	$scope.cancel = function () {

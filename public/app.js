@@ -7,5 +7,5 @@ angular.module('AJSChat', [
   'AJSChat.main'
 ]).
 config(['$routeProvider', function($routeProvider) {
-  $routeProvider.otherwise({redirectTo: '/login'});
+  $routeProvider.otherwise({redirectTo: '/main'});
 }]);
