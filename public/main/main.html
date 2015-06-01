@@ -79,14 +79,14 @@
         <h3 class="modal-title">Login</h3>
     </div>
     <div class="modal-body">
-		<input type="text" ng-model="login_name" class="form-control" id="usrname" placeholder="Enter email">
+		<input type="text" ng-model="login_email" class="form-control" placeholder="Enter email">
 		<br />
-		<input type="password" ng-model="login_pass" class="form-control" id="psw" placeholder="Enter password" ng-keyup="$event.keyCode == 13 ? ok() : null;">
+		<input type="password" ng-model="login_pass" class="form-control" placeholder="Enter password" ng-keyup="$event.keyCode == 13 ? ok() : null;">
     </div>
     <div class="modal-footer">
         <button class="btn btn-primary" ng-click="ok()">Login</button>
         <button class="btn btn-primary" ng-click="signup()">Sign Up</button>
-        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+<!--         <button class="btn btn-warning" ng-click="cancel()">Cancel</button> -->
         
     </div>
 </script>
@@ -102,6 +102,6 @@
     </div>
     <div class="modal-footer">
         <button class="btn btn-primary" ng-click="ok()">Sign Up</button>
-        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+<!--         <button class="btn btn-warning" ng-click="cancel()">Cancel</button> -->
     </div>
 </script>

@@ -31,6 +31,8 @@ angular.module('AJSChat.main', [
 			templateUrl: 'SignUpTemplete.html',
 			controller: 'SignUpCtrl',
 			size: "sm",  // sm, lg
+			backdrop: 'static',
+			keyboard: false
 		});
 
 		modalInstance.result.then(function(user) {
@@ -54,6 +56,8 @@ angular.module('AJSChat.main', [
 			templateUrl: 'LoginTemplete.html',
 			controller: 'LoginCtrl',
 			size: "sm",  // sm, lg
+			backdrop: 'static',
+			keyboard: false
 		});
 
 		modalInstance.result.then(function(user) {
@@ -310,7 +314,7 @@ angular.module('AJSChat.main', [
 
 .controller('LoginCtrl', ['$scope', '$modalInstance', 'User', function ($scope, $modalInstance, User) {
 	$scope.ok = function () {
-		User.login($scope.login_name, $scope.login_pass)
+		User.login($scope.login_email, $scope.login_pass)
 			.success(function (user) {
 				if (user != null){
 					User.me = user;
