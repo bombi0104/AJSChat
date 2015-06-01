@@ -7,7 +7,7 @@ angular.module('AJSChat.main', [
 	'AJSChat.factories'])
 
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/main', {
+  $routeProvider.when('/', {
     templateUrl: 'main/main.html',
     controller: 'MainCtrl'
   });
@@ -19,6 +19,30 @@ angular.module('AJSChat.main', [
 	$scope.user = User.me;
 	$scope.groups = {};
 	$scope.group = {}; //Selected group;
+	
+	
+	/**
+	 * SignUp dialog
+     **/
+	var openSignUpDialog = function(){
+		//notifyMe($scope.group.name, $scope.group.messages[0].content);
+		var modalInstance = $modal.open({
+			animation: true,
+			templateUrl: 'SignUpTemplete.html',
+			controller: 'SignUpCtrl',
+			size: "sm",  // sm, lg
+		});
+
+		modalInstance.result.then(function(user) {
+			console.log("Return user = ", User.me)
+			$scope.user = user;	
+			startSSE();
+			getGroups();
+		}, function (dismiss_msg) {
+			console.log('Modal dismissed at: ' + new Date() + "    " + dismiss_msg);
+		})
+	}
+	
 	
 	/**
 	 * Login dialog
@@ -33,45 +57,52 @@ angular.module('AJSChat.main', [
 		});
 
 		modalInstance.result.then(function(user) {
-			$scope.$apply(function(){
-				console.log("Return user = ", user)
-				$scope.user = user;	
-			})
-		});
+			console.log("Return user = ", User.me)
+			$scope.user = user;	
+			startSSE();
+			getGroups();
+		}, function (dismiss_msg) {
+			if (dismiss_msg == "signup"){
+				openSignUpDialog();
+			}
+			console.log('Modal dismissed at: ' + new Date() + "    " + dismiss_msg);
+		})
 	}
 
 
 	if (User.me == null) {
-		// Goto Login page
-// 		window.location = "#/login";
 		openLoginDialog();
 	}
 
 	/**
 	 * Start REAL-TIME stream
 	 **/
-    var chatEvents = new EventSource('/stream/' + $scope.user._id);
-    chatEvents.addEventListener("chat", function(event) {
-        $scope.$apply(function(){
-            var chat = JSON.parse(event.data);
-            // console.log(chat);
-            receiveMsg(chat);
-        });
-    });
-
+	var startSSE = function(){
+		var chatEvents = new EventSource('/stream/' + $scope.user._id);
+	    chatEvents.addEventListener("chat", function(event) {
+	        $scope.$apply(function(){
+	            var chat = JSON.parse(event.data);
+	            // console.log(chat);
+	            receiveMsg(chat);
+	        });
+	    });
+	}
+    
 
     /**
 	 *
      **/
-	Groups.getAllGroupOfUser($scope.user._id)
-		.success(function(groups){
-			if (groups != null) {
-				$scope.groups = groups;
-			}
-		})
-		.error(function (error) {
-	        alert("aaa   = " + error.messages);
-        });
+    var getGroups = function(){
+		Groups.getAllGroupOfUser($scope.user._id)
+			.success(function(groups){
+				if (groups != null) {
+					$scope.groups = groups;
+				}
+			})
+			.error(function (error) {
+		        alert("aaa   = " + error.messages);
+	        });
+    }
 
 	/**
 	 *
@@ -209,7 +240,7 @@ angular.module('AJSChat.main', [
 		modalInstance.result.then(function (selectedItem) {
 			$scope.selected = selectedItem;
 			}, function () {
-				$log.info('Modal dismissed at: ' + new Date());
+				console.log('Modal dismissed at: ' + new Date());
 			});
 	}
 	
@@ -280,6 +311,31 @@ angular.module('AJSChat.main', [
 .controller('LoginCtrl', ['$scope', '$modalInstance', 'User', function ($scope, $modalInstance, User) {
 	$scope.ok = function () {
 		User.login($scope.login_name, $scope.login_pass)
+			.success(function (user) {
+				if (user != null){
+					User.me = user;
+					$modalInstance.close(user);
+				} else {
+					alert("Wrong username or password");
+				}
+	        })
+	        .error(function (error) {
+	            alert(error);
+            });
+	};
+
+	$scope.cancel = function () {
+		$modalInstance.dismiss('cancel');
+	};
+	
+	$scope.signup = function () {
+		$modalInstance.dismiss('signup');
+	};
+}])
+
+.controller('SignUpCtrl', ['$scope', '$modalInstance', 'User', function ($scope, $modalInstance, User) {
+	$scope.ok = function () {
+		User.signup($scope.email, $scope.name, $scope.password)
 			.success(function (user) {
 				if (user != null){
 					User.me = user;

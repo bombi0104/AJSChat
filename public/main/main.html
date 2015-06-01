@@ -80,10 +80,28 @@
     </div>
     <div class="modal-body">
 		<input type="text" ng-model="login_name" class="form-control" id="usrname" placeholder="Enter email">
-		<input type="password" ng-model="login_pass" class="form-control" id="psw" placeholder="Enter password">
+		<br />
+		<input type="password" ng-model="login_pass" class="form-control" id="psw" placeholder="Enter password" ng-keyup="$event.keyCode == 13 ? ok() : null;">
     </div>
     <div class="modal-footer">
         <button class="btn btn-primary" ng-click="ok()">Login</button>
+        <button class="btn btn-primary" ng-click="signup()">Sign Up</button>
+        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+        
+    </div>
+</script>
+
+<script type="text/ng-template" id="SignUpTemplete.html">
+    <div class="modal-header">
+        <h2 class="modal-title">Sign up</h2>
+    </div>
+    <div class="modal-body">
+	    <input type="text" ng-model="email" class="form-control" placeholder="Enter email"> <br />
+		<input type="text" ng-model="name" class="form-control" placeholder="Enter name"> <br />
+		<input type="password" ng-model="password" class="form-control" placeholder="Enter password" ng-keyup="$event.keyCode == 13 ? ok() : null;">
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="ok()">Sign Up</button>
         <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
     </div>
 </script>

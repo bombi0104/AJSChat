@@ -7,13 +7,23 @@ angular.module('AJSChat.factories', [])
 	var _factory = {};
 	_factory.me = null;
 
-	_factory.login = function(username, password){
+	_factory.login = function(email, password){
 		var jsonData = {
-            username:username,
+            email:email,
             password:password
         }
 
         return $http.post(urlBase + '/login', jsonData);
+	}
+	
+	_factory.signup = function(email, name, pass){
+		var userData = {
+			email: email,
+			name: name,
+			password: pass
+		}
+		
+		return $http.post(urlBase, userData);
 	}
 
 	_factory.getAll = function(){

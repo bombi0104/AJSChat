@@ -40,8 +40,8 @@ exports.getById = function(req, res, next) {
 
 /* POST /login */
 exports.login = function(req, res, next) {
-  console.log("Login body : ",req.body);
-  User.findOne({name:req.body.username, password:req.body.password})
+//   console.log("Login body : ",req.body);
+  User.findOne({email:req.body.email, password:req.body.password})
       .select('name token')
       .exec(function (err, user) {
         if (err) return handleError(err);
