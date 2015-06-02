@@ -12,14 +12,12 @@ body {
 }
 
 .left-panel {
-	background-color: blue;
 	padding: 0px;
 	border-right: 2px solid grey;
 	width: 250px;
 }
 
 .right-panel {
-	background-color: red;
 	padding: 0px;
 	width: calc(100% - 250px)
 }
@@ -44,4 +42,8 @@ body {
 	height: calc(100vh - 170px);
 	background-color: white;
 	overflow: scroll;
+}
+
+.chat-area {
+	height: 98px;
 }

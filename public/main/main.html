@@ -31,6 +31,7 @@
 		</div>
 		<div class="message-panel" scroll-glue>
 			<ul class="list-group">
+				<li><button type="button" class="btn btn-info btn-sm" ng-click="loadMore();"><span class="glyphicon glyphicon-cloud-download"></span>Load more...</button></li>
             	<li class="list-group-item" ng-repeat="msg in group.messages">
 	              	<div class='pull-left nickname'>{{msg.from_user.name}}</div>
 	              	<div class='pull-right msg-date'>{{msg.updated_at}}</div>
@@ -41,7 +42,7 @@
 			<!-- <pre ng-repeat="msg in group.messages">{{msg.content}}</pre> -->
 		</div>
 		<div class="chat-panel">
-			<textarea class="form-control" ng-model="inputMsg" ng-keyup="sendMsg($event);" placeholder="Enter your message here..."></textarea>
+			<textarea style="height: 98px;" class="form-control" ng-model="inputMsg" ng-keyup="sendMsg($event);" placeholder="Enter your message here..."></textarea>
 		</div>
 	</div>
 </div>

@@ -86,5 +86,9 @@ angular.module('AJSChat.factories', [])
         return $http.post(urlBase, msgObj);
 	}
 
+	_factory.loadMore = function(groupId, time){
+		return $http.get(urlBase + '/group/' + groupId + "/from/" + time);
+	}
+
 	return _factory;
 }])

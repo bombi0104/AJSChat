@@ -13,8 +13,8 @@ angular.module('AJSChat.main', [
   });
 }])
 
-.controller('MainCtrl', ['$scope', '$location', 'User', 'Groups', 'Messages', '$modal', 
-	function($scope, $location, User, Groups, Messages, $modal) {
+.controller('MainCtrl', ['$scope', '$timeout', 'User', 'Groups', 'Messages', '$modal', 
+	function($scope, $timeout, User, Groups, Messages, $modal) {
 	$scope.glued = true;
 	$scope.user = User.me;
 	$scope.groups = {};
@@ -252,6 +252,24 @@ angular.module('AJSChat.main', [
 	}
 
 	/**
+	 * Load more message
+     **/
+	$scope.loadMore = function(){
+		Messages.loadMore($scope.group._id, $scope.group.messages[0].created_at)
+			.success(function(msgs){
+				if ((msgs != null) && (msgs.length > 0)){
+					for (var i = msgs.length - 1; i >= 0; i--) {
+						msgs[i]
+						$scope.group.messages.unshift(msgs[i]);
+					};
+				}
+			})
+			.error(function (error) {
+	        	alert("aaa   = " + error.messages);
+        	});
+	}
+
+	/**
 	 * Add group dialog
      **/
 	$scope.openCreateGroupDialog = function(){
@@ -291,6 +309,7 @@ angular.module('AJSChat.main', [
   			}
             
             var notification = new Notification(groupName, options);
+            $timeout(notification.close(), 5000);
         }
 
           // Otherwise, we need to ask the user for permission
