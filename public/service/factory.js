@@ -42,6 +42,29 @@ angular.module('AJSChat.factories', [])
 		return $http.get(urlBase + '/user/' + userId);
 	}
 
+	_factory.create = function(name, userId) {
+		var groupData = {
+			name: name,
+			users: [userId]
+		}
+
+		return $http.post(urlBase, groupData);
+	}
+
+	_factory.removeUser = function(groupid, userid){
+		var jsonData = {
+			users : [ userid ]
+		}
+		return $http.post(urlBase + '/' + groupid + "/removeUsers", jsonData);
+	}
+
+	_factory.addUser = function(groupid, userid){
+		var jsonData = {
+			users : [userid]
+		}
+		return $http.post(urlBase + '/' + groupid + "/addUsers", jsonData);	
+	}
+
 	return _factory;
 }])
 

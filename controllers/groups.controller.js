@@ -30,7 +30,7 @@ exports.getAll = function(req, res, next){
 /* GET groups by userid */
 exports.getGroupsOfUser = function(req, res, next){
   Group.find({users : req.params.id})
-    .populate('users', 'name')
+    .populate('users', 'name email')
     .exec(function (err, groups) {
       if (err) return next(err);
       res.json(groups);
@@ -53,13 +53,38 @@ exports.createGroup = function(req, res, next) {
 }
 
 /* POST /groups/:id/adduser */
-exports.addUserToGroup = function(req, res, next) {
+exports.addUsers = function(req, res, next) {
   console.log('req.body : ', req.body);
   Group.findById(req.params.id, function (err, group) {
     if (err) return next(err);
 
     req.body.users.forEach(function(userid){
       group.users.push(ObjectId(userid));
+    });
+
+    group.save(function(err){
+      if (err) {
+        return next(err);
+      }
+      res.json(group);
+    });
+  });
+}
+
+/**
+ * Remove users from group
+ **/
+exports.removeUsers = function(req, res, next){
+  Group.findById(req.params.id, function (err, group) {
+    if (err) return next(err);
+
+    req.body.users.forEach(function(userid){
+      for (var i = 0; i < group.users.length; i++) {
+        if (group.users[i] == userid){
+          group.users.splice(i, 1);
+          i--;
+        }
+      };
     });
 
     group.save(function(err){

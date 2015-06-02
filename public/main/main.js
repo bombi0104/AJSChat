@@ -101,6 +101,9 @@ angular.module('AJSChat.main', [
 			.success(function(groups){
 				if (groups != null) {
 					$scope.groups = groups;
+					if ($scope.groups.length > 0){
+						$scope.selectGroup($scope.groups[0]);	
+					}
 				}
 			})
 			.error(function (error) {
@@ -232,10 +235,10 @@ angular.module('AJSChat.main', [
 			controller: 'ModalInstanceCtrl',
 			size: "lg",  // sm, lg
 			resolve: {
-				group: function () {
+				_group: function () {
 					return $scope.group;
 				},
-				user: function(){
+				_user: function(){
 					return $scope.user;
 				}
 			}
@@ -243,6 +246,29 @@ angular.module('AJSChat.main', [
 
 		modalInstance.result.then(function (selectedItem) {
 			$scope.selected = selectedItem;
+			}, function () {
+				console.log('Modal dismissed at: ' + new Date());
+			});
+	}
+
+	/**
+	 * Add group dialog
+     **/
+	$scope.openCreateGroupDialog = function(){
+		var modalInstance = $modal.open({
+			animation: true,
+			templateUrl: 'CreateGroupTemplete.html',
+			controller: 'CreateGroupCtrl',
+			size: "lg",  // sm, lg
+			resolve: {
+				_user: function(){
+					return $scope.user;
+				}
+			}
+		});
+
+		modalInstance.result.then(function (group) {
+			$scope.groups.push(group);
 			}, function () {
 				console.log('Modal dismissed at: ' + new Date());
 			});
@@ -287,14 +313,31 @@ angular.module('AJSChat.main', [
     }
 }])
 
-.controller('ModalInstanceCtrl', ['$scope', '$modalInstance', 'User', function ($scope, $modalInstance, User, _group, _user) {
+.controller('ModalInstanceCtrl', ['$scope', '$modalInstance', 'User', 'Groups', '_group', '_user', 
+	function($scope, $modalInstance, User, Groups, _group, _user) {
 	$scope.group = _group;
 	$scope.user = _user;
 	$scope.users = {};
 
+	console.log("Group Users : ", $scope.group);
+	console.log("Users : ", $scope.user);
+
 	User.getAll()
 		.success(function(users){
 			if (users != null) {
+				$scope.group.users.forEach(function(gu){
+					var index = -1;
+					for (var i = 0; i < users.length; i++) {
+						if (users[i].email == gu.email){
+							// Remove this user from users list.
+							index = i;
+							break;
+						}
+					};
+					if (index > -1){
+						users.splice(index, 1);
+					}
+				});
 				$scope.users = users;
 			}
 		})
@@ -302,6 +345,39 @@ angular.module('AJSChat.main', [
 
 		});
 
+	$scope.addUser = function (user) {
+		Groups.addUser(_group._id, user._id)
+		.success(function(users){
+			$scope.group.users.push(user);
+			for (var i = 0; i < $scope.users.length; i++) {
+				if ($scope.users[i].email == user.email){
+					$scope.users.splice(i,1);
+					break;
+				}
+			};
+
+		})
+		.error(function(err){
+
+		});
+	}	
+
+	$scope.removeUser = function (user) {
+		Groups.removeUser(_group._id, user._id)
+		.success(function(users){
+			$scope.users.push(user);
+			for (var i = 0; i < $scope.group.users.length; i++) {
+				if ($scope.group.users[i].email == user.email){
+					$scope.group.users.splice(i,1);
+					break;
+				}
+			};
+			
+		})
+		.error(function(err){
+
+		});
+	}
 
 	$scope.ok = function () {
 	$modalInstance.close($scope.selected.item);
@@ -326,7 +402,7 @@ angular.module('AJSChat.main', [
 	        .error(function (error) {
 	            alert(error);
             });
-	};
+	};	
 
 	$scope.cancel = function () {
 		$modalInstance.dismiss('cancel');
@@ -344,6 +420,26 @@ angular.module('AJSChat.main', [
 				if (user != null){
 					User.me = user;
 					$modalInstance.close(user);
+				} else {
+					alert("Wrong username or password");
+				}
+	        })
+	        .error(function (error) {
+	            alert(error);
+            });
+	};
+
+	$scope.cancel = function () {
+		$modalInstance.dismiss('cancel');
+	};
+}])
+
+.controller('CreateGroupCtrl', ['$scope', '$modalInstance', 'Groups', '_user', function ($scope, $modalInstance, Groups, _user) {
+	$scope.ok = function () {
+		Groups.create($scope.name, _user._id)
+			.success(function (gr) {
+				if (gr != null){
+					$modalInstance.close(gr);
 				} else {
 					alert("Wrong username or password");
 				}

@@ -1,11 +1,12 @@
 <div class="container-fluid no-pading">
 	<div class="left-panel pull-left">
-		<div class="header-panel"></div>  
+		<div class="header-panel">
+		</div>  
 		<div class="contact-panel">
 			<div class="list-group">
   				<a class="list-group-item" ng-repeat="gr in groups" ng-click="selectGroup(gr)" ng-class="{'active':gr.active}">
               		<span class="badge" ng-hide="gr.unread == 0">{{gr.unread}}</span>
-              		<span class="glyphicon glyphicon-th-list"></span>
+              		<span class="glyphicon glyphicon-th-large"></span>
               		{{gr.name}}
               	</a>
 			</div>
@@ -22,7 +23,8 @@
 						ng-repeat="user in group.users" 
 						tooltip-placement="bottom"
 						tooltip="{{user.name}}">　</span>
-					<span class="glyphicon glyphicon-plus" ng-click="addUserToGroup();"></span>
+					<button type="button" class="btn btn-info btn-sm" ng-click="addUserToGroup();"><span class="glyphicon glyphicon-plus"></span></button>
+					<button type="button" class="btn btn-default btn-sm" ng-click="openCreateGroupDialog();"><span class="glyphicon glyphicon-th-list"></span></button>
 				</div>
 
 			</div>
@@ -50,23 +52,28 @@
         <h3 class="modal-title">Users</h3>
     </div>
     <div class="modal-body">
-
-    		<h2>Users list</h2>
-    		<ul class="list-group">
-            	<li class="list-group-item" ng-repeat="user in users">
-	              	{{user.name}} ({{user.email}})
-            	</li>
-          	</ul>
-
-
-    	<h2>Groups Users</h2>
-    		<ul class="list-group">
-            	<li class="list-group-item" ng-repeat="user in group.users">
-	              	{{user.name}} ({{user.email}})
-            	</li>
-          	</ul>
-
-	Selected: <b>{{ selected.item }}</b>    
+    	<div class="container-fluid">
+    		<div class="row">
+    			<div class="col-sm-6">
+    				<h2>Users list</h2>
+    				<ul class="list-group">
+            			<li class="list-group-item" ng-repeat="user in users">
+            				<span class="glyphicon glyphicon-plus" ng-click="addUser(user);"></span>
+	              			{{user.name}} ({{user.email}})
+            			</li>
+          			</ul>
+    			</div>
+    			<div class="col-sm-6">
+    				<h2>Groups Users</h2>
+					<ul class="list-group">
+        				<li class="list-group-item" ng-repeat="user in group.users">
+        					<span class="glyphicon glyphicon-minus" ng-click="removeUser(user);"></span>
+              				{{user.name}} ({{user.email}})
+        				</li>
+      				</ul>
+    			</div>
+    		</div>
+    	</div>   
     </div>
     <div class="modal-footer">
         <button class="btn btn-primary" ng-click="ok()">OK</button>
@@ -103,5 +110,18 @@
     <div class="modal-footer">
         <button class="btn btn-primary" ng-click="ok()">Sign Up</button>
 <!--         <button class="btn btn-warning" ng-click="cancel()">Cancel</button> -->
+    </div>
+</script>
+
+<script type="text/ng-template" id="CreateGroupTemplete.html">
+    <div class="modal-header">
+        <h2 class="modal-title">Create Group</h2>
+    </div>
+    <div class="modal-body">
+		<input type="text" ng-model="name" class="form-control" placeholder="Enter name"> <br />
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="ok()">Create</button>
+		<button class="btn btn-warning" ng-click="cancel()">Cancel</button>
     </div>
 </script>
