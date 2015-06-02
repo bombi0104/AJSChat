@@ -60,11 +60,60 @@ exports.getById = function(req, res) {
 exports.getMessageInGroup = function(req, res) {
   Message
     .find({group:req.params.id})
+    .sort({created_at:-1})
+    .limit(20)
+    .populate('from_user', 'name')
+    .exec(function (err, msgs) {
+      if (err) return next(err);
+
+      msgs.sort(function(a,b){
+        if (a.created_at > b.created_at)
+          return 1;
+        else if (a.created_at < b.created_at)
+          return -1;
+        else 
+          return 0;
+      });
+
+      res.json(msgs);
+    });
+}
+
+/**
+ * Get messages in group
+ */
+exports.getLast50 = function(req, res) {
+  Message
+    .find({group:req.params.id})
+    .sort({created_at:-1})
     .populate('from_user', 'name')
     .exec(function (err, msgs) {
       if (err) return next(err);
       res.json(msgs);
     });
+}
+
+exports.getNext = function(req, res, next){
+  Message
+  .find({group:req.params.id})
+  .where('created_at').lt(req.params.time)
+  .sort({created_at:-1})
+  .limit(20)
+  .populate('from_user', 'name')
+  .exec(function (err, msgs) {
+    if (err) return next(err);
+
+    msgs.sort(function(a,b){
+      if (a.created_at > b.created_at)
+        return 1;
+      else if (a.created_at < b.created_at)
+        return -1;
+      else 
+        return 0;
+    });
+
+    res.json(msgs);
+  });
 }
 
 /* PUT /messages/:id */
