@@ -109,7 +109,6 @@ angular.module('AJSChat.main', [
 	        });
     }
 
-	console.log("User = ", $scope.user, $scope.user._id);
 	if ($scope.user == null) {
 		openLoginDialog();
 	} else {
