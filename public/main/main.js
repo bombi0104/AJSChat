@@ -4,7 +4,8 @@ angular.module('AJSChat.main', [
 	'ngRoute', 
 	'luegg.directives', 
 	'ui.bootstrap',
-	'AJSChat.factories'])
+	'AJSChat.factories',
+	'ngCookies'])
 
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/', {
@@ -13,10 +14,10 @@ angular.module('AJSChat.main', [
   });
 }])
 
-.controller('MainCtrl', ['$scope', '$timeout', 'User', 'Groups', 'Messages', '$modal', 
-	function($scope, $timeout, User, Groups, Messages, $modal) {
+.controller('MainCtrl', ['$scope', '$timeout', 'User', 'Groups', 'Messages', '$modal', '$cookies', 
+	function($scope, $timeout, User, Groups, Messages, $modal, $cookies) {
 	$scope.glued = true;
-	$scope.user = User.me;
+	$scope.user = $cookies.getObject('user');
 	$scope.groups = {};
 	$scope.group = {}; //Selected group;
 	
@@ -38,6 +39,8 @@ angular.module('AJSChat.main', [
 		modalInstance.result.then(function(user) {
 			console.log("Return user = ", User.me)
 			$scope.user = user;	
+			$cookies.putObject('user', user);
+			console.log("Cookies = ", $cookies.getObject('user'));
 			startSSE();
 			getGroups();
 		}, function (dismiss_msg) {
@@ -63,6 +66,7 @@ angular.module('AJSChat.main', [
 		modalInstance.result.then(function(user) {
 			console.log("Return user = ", User.me)
 			$scope.user = user;	
+			$cookies.putObject('user', user);
 			startSSE();
 			getGroups();
 		}, function (dismiss_msg) {
@@ -71,11 +75,6 @@ angular.module('AJSChat.main', [
 			}
 			console.log('Modal dismissed at: ' + new Date() + "    " + dismiss_msg);
 		})
-	}
-
-
-	if (User.me == null) {
-		openLoginDialog();
 	}
 
 	/**
@@ -91,9 +90,8 @@ angular.module('AJSChat.main', [
 	        });
 	    });
 	}
-    
 
-    /**
+	/**
 	 *
      **/
     var getGroups = function(){
@@ -110,6 +108,14 @@ angular.module('AJSChat.main', [
 		        alert("aaa   = " + error.messages);
 	        });
     }
+
+	console.log("User = ", $scope.user, $scope.user._id);
+	if ($scope.user == null) {
+		openLoginDialog();
+	} else {
+		startSSE();
+		getGroups();
+	}
 
 	/**
 	 *
