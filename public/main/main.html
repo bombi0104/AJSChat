@@ -1,0 +1,128 @@
+<div class="container-fluid no-pading">
+	<div class="left-panel pull-left">
+		<div class="header-panel">
+		</div>  
+		<div class="contact-panel">
+			<div class="list-group">
+  				<a class="list-group-item" ng-repeat="gr in groups" ng-click="selectGroup(gr)" ng-class="{'active':gr.active}">
+              		<span class="badge" ng-hide="gr.unread == 0">{{gr.unread}}</span>
+              		<span class="glyphicon glyphicon-th-large"></span>
+              		{{gr.name}}
+              	</a>
+			</div>
+		</div>
+	</div>
+	<div class="right-panel pull-right">
+		<div class="header-panel">
+			<div class="pull-left">{{group.name}}</div>
+			<div class="pull-right">
+				{{user.name}}
+				<br />
+				<div >
+					<span class="glyphicon glyphicon-user" 
+						ng-repeat="user in group.users" 
+						tooltip-placement="bottom"
+						tooltip="{{user.name}}">　</span>
+					<button type="button" class="btn btn-info btn-sm" ng-click="addUserToGroup();"><span class="glyphicon glyphicon-plus"></span></button>
+					<button type="button" class="btn btn-default btn-sm" ng-click="openCreateGroupDialog();"><span class="glyphicon glyphicon-th-list"></span></button>
+				</div>
+
+			</div>
+		</div>
+		<div class="message-panel" scroll-glue>
+			<ul class="list-group">
+				<li><button type="button" class="btn btn-info btn-sm" ng-click="loadMore();"><span class="glyphicon glyphicon-cloud-download"></span>Load more...</button></li>
+            	<li class="list-group-item" ng-repeat="msg in group.messages">
+	              	<div class='pull-left nickname'>{{msg.from_user.name}}</div>
+	              	<div class='pull-right msg-date'>{{msg.updated_at}}</div>
+	              	<br />
+	              	<pre>{{msg.content}}</pre>
+            	</li>
+          	</ul>
+			<!-- <pre ng-repeat="msg in group.messages">{{msg.content}}</pre> -->
+		</div>
+		<div class="chat-panel">
+			<textarea style="height: 98px;" class="form-control" ng-model="inputMsg" ng-keyup="sendMsg($event);" placeholder="Enter your message here..."></textarea>
+		</div>
+	</div>
+</div>
+
+<!-- Add user to group modal -->
+<script type="text/ng-template" id="addUserToGroup.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Users</h3>
+    </div>
+    <div class="modal-body">
+    	<div class="container-fluid">
+    		<div class="row">
+    			<div class="col-sm-6">
+    				<h2>Users list</h2>
+    				<ul class="list-group">
+            			<li class="list-group-item" ng-repeat="user in users">
+            				<span class="glyphicon glyphicon-plus" ng-click="addUser(user);"></span>
+	              			{{user.name}} ({{user.email}})
+            			</li>
+          			</ul>
+    			</div>
+    			<div class="col-sm-6">
+    				<h2>Groups Users</h2>
+					<ul class="list-group">
+        				<li class="list-group-item" ng-repeat="user in group.users">
+        					<span class="glyphicon glyphicon-minus" ng-click="removeUser(user);"></span>
+              				{{user.name}} ({{user.email}})
+        				</li>
+      				</ul>
+    			</div>
+    		</div>
+    	</div>   
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="ok()">OK</button>
+        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+    </div>
+</script>
+
+<script type="text/ng-template" id="LoginTemplete.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Login</h3>
+    </div>
+    <div class="modal-body">
+		<input type="text" ng-model="login_email" class="form-control" placeholder="Enter email">
+		<br />
+		<input type="password" ng-model="login_pass" class="form-control" placeholder="Enter password" ng-keyup="$event.keyCode == 13 ? ok() : null;">
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="ok()">Login</button>
+        <button class="btn btn-primary" ng-click="signup()">Sign Up</button>
+<!--         <button class="btn btn-warning" ng-click="cancel()">Cancel</button> -->
+        
+    </div>
+</script>
+
+<script type="text/ng-template" id="SignUpTemplete.html">
+    <div class="modal-header">
+        <h2 class="modal-title">Sign up</h2>
+    </div>
+    <div class="modal-body">
+	    <input type="text" ng-model="email" class="form-control" placeholder="Enter email"> <br />
+		<input type="text" ng-model="name" class="form-control" placeholder="Enter name"> <br />
+		<input type="password" ng-model="password" class="form-control" placeholder="Enter password" ng-keyup="$event.keyCode == 13 ? ok() : null;">
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="ok()">Sign Up</button>
+<!--         <button class="btn btn-warning" ng-click="cancel()">Cancel</button> -->
+    </div>
+</script>
+
+<script type="text/ng-template" id="CreateGroupTemplete.html">
+    <div class="modal-header">
+        <h2 class="modal-title">Create Group</h2>
+    </div>
+    <div class="modal-body">
+		<input type="text" ng-model="name" class="form-control" placeholder="Enter name"> <br />
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="ok()">Create</button>
+		<button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+    </div>
+</script>

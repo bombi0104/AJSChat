@@ -1,0 +1,82 @@
+body,html {
+  width: 100%;
+  height: 100%;
+}
+
+body { 
+  margin: 0; 
+}
+
+.main-panel {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  /* background-color: #eaeaea; */
+}
+.left-panel {
+    float:left;
+    width:300px;
+    height: 100%;
+    display:block;
+    /* background-color: yellow; */
+    border-right: 1px solid black;
+}
+.right-panel {
+    float:left;
+    display:block;
+    /* background-color: red; */
+    height: 100%;
+    width:calc(100% - 301px);
+}
+
+.header-panel {
+    height: 50px;
+    border-bottom: 1px solid black;
+}
+
+.contact-panel {
+  overflow: scroll;
+  height : calc(100% - 51px);
+}
+
+.chat-content {
+  /* background-color: grey; */
+  height: calc(100% - 151px);
+  width:100%;
+  overflow: scroll;
+  border-bottom: 1px solid black;
+}
+
+.input-panel {
+  display:block;
+    background-color: #ae9b9b;
+    height: 100px;
+    width:100%;
+}
+
+.center-text { 
+  text-align: center; 
+  height:50px;
+  vertical-align: middle;
+  display: block;
+}
+
+.div-left {
+  text-align: left;
+  float:left;
+  width:50%
+}
+
+.div-right {
+  text-align: right;
+  float:left;
+  width:50%
+}
+
+.nickname {
+  font-weight: bold;
+}
+
+.msg-date {
+  font:small-caption;
+}
