@@ -311,12 +311,15 @@ angular.module('AJSChat.main', [
         else if (Notification.permission === "granted") {
             // If it's okay let's create a notification
             var options = {
-      			body: msg
+      			body: msg,
+      			tag: 'AJSChat'
       			// icon: theIcon
   			}
             
             var notification = new Notification(groupName, options);
-            $timeout(notification.close(), 5000);
+            $timeout(function(){
+            	notification.close();
+            }, 5000);
         }
 
           // Otherwise, we need to ask the user for permission
@@ -336,6 +339,11 @@ angular.module('AJSChat.main', [
               }
           });
         }
+    }
+
+    $scope.formatDate = function(st){
+    	var tmp = st.match(/^\d{4}-(\d{2})-(\d{2})T(\d{2}):(\d{2})/);
+    	return tmp[2] + '/' + tmp[1] + ' ' + tmp[3] + ':' + tmp[4];  //dd/MM hh:mm
     }
 }])
 

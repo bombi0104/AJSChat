@@ -14,7 +14,7 @@
 	</div>
 	<div class="right-panel pull-right">
 		<div class="header-panel">
-			<div class="pull-left">{{group.name}}</div>
+			<div class="pull-left group-name"><b>{{group.name}}</b></div>
 			<div class="pull-right">
 				{{user.name}}
 				<br />
@@ -34,7 +34,7 @@
 				<li><button type="button" class="btn btn-info btn-sm" ng-click="loadMore();"><span class="glyphicon glyphicon-cloud-download"></span>Load more...</button></li>
             	<li class="list-group-item" ng-repeat="msg in group.messages">
 	              	<div class='pull-left nickname'>{{msg.from_user.name}}</div>
-	              	<div class='pull-right msg-date'>{{msg.updated_at}}</div>
+	              	<div class='pull-right msg-date small'>{{formatDate(msg.updated_at)}}</div>
 	              	<br />
 	              	<pre>{{msg.content}}</pre>
             	</li>
@@ -42,8 +42,8 @@
 			<!-- <pre ng-repeat="msg in group.messages">{{msg.content}}</pre> -->
 		</div>
 		<div class="chat-panel">
-			<textarea style="height: 98px;" class="form-control" ng-model="inputMsg" ng-keyup="sendMsg($event);" placeholder="Enter your message here...
-Shift-Enter for send message."></textarea>
+            <button type="button" class="btn btn-default btn-sm" ng-click=""><span class="glyphicon glyphicon-share-alt glyphicon-user"></span><span class="glyphicon glyphicon-user"></span></button>
+			<textarea class="chat-area" ng-model="inputMsg" ng-keyup="sendMsg($event);" placeholder="Enter your message here...(Shift-Enter for send)"></textarea>
 		</div>
 	</div>
 </div>
