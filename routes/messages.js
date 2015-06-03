@@ -13,6 +13,8 @@ router.post('/', Groups.getUsersInGroup, Users.getFromUser, Messages.create);
 router.get('/:id', Messages.getById);
 /* GET /messages/group/id */
 router.get('/group/:id', Messages.getMessageInGroup);
+/* GET /messages/group/id/from/datetime */
+router.get('/group/:id/from/:time', Messages.getNext);
 /* PUT /messages/:id */
 router.put('/:id', Messages.edit);
 /* DELETE /messages/:id */

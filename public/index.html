@@ -1,78 +1,20 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="ChatApp">
+<html lang="en" ng-app="AJSChat" class="no-js">
   <head>
-    <meta charset="utf-8"> 
     <title>AJSChat</title>
-    <link rel="stylesheet" href="stylesheets/style1.css">
-    <link rel="stylesheet" href="lib/bootstrap-css-only/css/bootstrap.min.css">
-    <script src="lib/angular/angular.min.js"></script>
-    <script src="lib/angular-scroll-glue/src/scrollglue.js"></script>
-    <script src="lib/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
-    <script src="javascripts/app.js"></script>
+    <meta charset="utf-8"> 
+    <link rel="stylesheet" href="libs/bootstrap-css-only/css/bootstrap.min.css">
+    <link rel="stylesheet" href="app.css">
   </head>
-
   <body>
-    <div class='main-panel' ng-controller="MainCtrl">
-    <!-- Login Modal -->
-      <script type="text/ng-template" id="myModalContent.html">
-        <div class="modal-header">
-          <h3 class="modal-title">LOGIN</h3>
-        </div>
-        <div class="modal-body">
-          <input type="text" class="form-control" id="usrname" placeholder="Enter email">
-          <input type="password" class="form-control" id="psw" placeholder="Enter password">
-          <button type="submit" class="btn btn-success btn-block"><span class="glyphicon glyphicon-off"></span> Login</button>
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-primary" ng-click="ok()">OK</button>
-          <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
-        </div>
-      </script>
-    <!-- Login Modal -->
-
-      <div class='left-panel'>
-        <div class='header-panel center-text'>
-          <b>Messager</b>
-        </div>
-        <div class='contact-panel'>
-          <div class="list-group">
-            <a href="#" ng-click="selectGroup(group)" class="list-group-item" 
-              ng-class="{'active':group.active}" ng-repeat="group in groups">
-              <span class="badge" ng-hide="group.unread == 0">{{group.unread}}</span>{{group.name}}</a>
-          </div>
-        </div>
-      </div>
-      <div class='right-panel'>
-        <div class='header-panel'>
-          <div class="pull-left"> 
-            <div style="padding: 10px 0px 0px 10px">
-            <p><font size="5" color="blue">{{groups[currentGroupIndex].name}}</font></p></div>
-          </div>
-          <div class="pull-right">
-            <div>Name : {{name}}</div>
-            <div ng-show="!name">
-              <input type="text" ng-model="login_name" placeholder="Username" style="width: 120px">
-              <input type="password" ng-model="login_pass" placeholder="Password" style="width: 120px"
-                    ng-keyup="$event.keyCode == 13 ? login() : null">
-            </div>  
-          </div>
-        </div>
-        <div class='chat-content' scroll-glue>
-          <ul class="list-group">
-            <li class="list-group-item" ng-repeat="msg in groups[currentGroupIndex].messages">
-              <div class='pull-left nickname'>{{msg.from_user.name}}</div>
-              <div class='pull-right msg-date'>{{msg.updated_at}}</div>
-              <br/>
-              <pre>{{msg.content}}</pre>
-            </li>
-          </ul>
-        </div>
-        <div class='input-panel'>
-            <div style="height:30px">Input message header</div>
-            <textarea style="height:70px" class="form-control" ng-model="inputMsg" 
-              ng-keyup="sendMsg($event);" placeholder="Enter your message here..."></textarea>
-        </div>
-      </div>
-    </div>
+    <div ng-view></div>
+    <script src="libs/angular/angular.js"></script>
+    <script src="libs/angular-route/angular-route.js"></script>
+    <script src="libs/angular-scroll-glue/src/scrollglue.js"></script>
+    <script src="libs/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+    <script src="app.js"></script>
+    <script src="main/main.js"></script>
+    <script src="login/login.js"></script>
+    <script src="service/factory.js"></script>
   </body>
 </html>

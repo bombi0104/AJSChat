@@ -1,11 +1,11 @@
 'use strict';
 
 // Declare app level module which depends on views, and components
-angular.module('ChatApp', [
+angular.module('AJSChat', [
   'ngRoute',
-  'ChatApp.chat',
-  'ChatApp.login'
+  'AJSChat.login',
+  'AJSChat.main'
 ]).
 config(['$routeProvider', function($routeProvider) {
-  $routeProvider.otherwise({redirectTo: '/login'});
+  $routeProvider.otherwise({redirectTo: '/'});
 }]);
