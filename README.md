@@ -7,7 +7,7 @@ After clone, run cmd
 > sudo npm install
 
 How to run
-> DEBUG=myapp npm start
+> DEBUG=AJSChat npm start
 or call nodemon
 > ./node_modules/nodemon/bin/nodemon.js
 

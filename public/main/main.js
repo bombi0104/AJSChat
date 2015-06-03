@@ -234,7 +234,7 @@ angular.module('AJSChat.main', [
 		var modalInstance = $modal.open({
 			animation: true,
 			templateUrl: 'addUserToGroup.html',
-			controller: 'ModalInstanceCtrl',
+			controller: 'UpdateGroupUsersCtrl',
 			size: "lg",  // sm, lg
 			resolve: {
 				_group: function () {
@@ -334,7 +334,7 @@ angular.module('AJSChat.main', [
     }
 }])
 
-.controller('ModalInstanceCtrl', ['$scope', '$modalInstance', 'User', 'Groups', '_group', '_user', 
+.controller('UpdateGroupUsersCtrl', ['$scope', '$modalInstance', 'User', 'Groups', '_group', '_user', 
 	function($scope, $modalInstance, User, Groups, _group, _user) {
 	$scope.group = _group;
 	$scope.user = _user;
@@ -400,8 +400,8 @@ angular.module('AJSChat.main', [
 		});
 	}
 
-	$scope.ok = function () {
-	$modalInstance.close($scope.selected.item);
+	$scope.close = function () {
+		$modalInstance.dismiss('close');
 	};
 
 	$scope.cancel = function () {

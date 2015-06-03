@@ -42,7 +42,8 @@
 			<!-- <pre ng-repeat="msg in group.messages">{{msg.content}}</pre> -->
 		</div>
 		<div class="chat-panel">
-			<textarea style="height: 98px;" class="form-control" ng-model="inputMsg" ng-keyup="sendMsg($event);" placeholder="Enter your message here..."></textarea>
+			<textarea style="height: 98px;" class="form-control" ng-model="inputMsg" ng-keyup="sendMsg($event);" placeholder="Enter your message here...
+Shift-Enter for send message."></textarea>
 		</div>
 	</div>
 </div>
@@ -77,8 +78,7 @@
     	</div>   
     </div>
     <div class="modal-footer">
-        <button class="btn btn-primary" ng-click="ok()">OK</button>
-        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+        <button class="btn btn-primary" ng-click="close()">Close</button>
     </div>
 </script>
 

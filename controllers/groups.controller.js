@@ -49,13 +49,15 @@ exports.createGroup = function(req, res, next) {
     if (err) {
       return next(err);
     }
-    res.json(group);
+
+    getGroupById(group._id, function(gr){
+      res.json(gr);
+    });
   });
 }
 
 /* POST /groups/:id/adduser */
 exports.addUsers = function(req, res, next) {
-  console.log('req.body : ', req.body);
   Group.findById(req.params.id, function (err, group) {
     if (err) return next(err);
 
@@ -64,9 +66,7 @@ exports.addUsers = function(req, res, next) {
     });
 
     group.save(function(err){
-      if (err) {
-        return next(err);
-      }
+      if (err) return next(err);
       res.json(group);
     });
   });
@@ -99,9 +99,8 @@ exports.removeUsers = function(req, res, next){
 
 /* GET /groups/id */
 exports.getById = function(req, res, next) {
-  Group.findById(req.params.id, function (err, post) {
-    if (err) return next(err);
-    res.json(post);
+  getGroupById(req.params.id, function(group){
+    res.json(group);
   });
 }
 
@@ -119,4 +118,13 @@ exports.delete = function(req, res, next) {
     if (err) return next(err);
     res.json(post);
   });
+}
+
+var getGroupById = function(groupid, next){
+  Group.findOne({_id : groupid})
+    .populate('users', 'name email')
+    .exec(function (err, group) {
+      if (err) return next(err);
+      next(group);
+    });
 }
