@@ -177,7 +177,9 @@ angular.module('AJSChat.main', [
 
 						// Update unread count
 						plusOneToUnread(gr);
-						notifyMe(gr.name, msg.content);
+						if (msg.from_user._id != $scope.user._id){
+							notifyMe(gr.name, msg.content);	
+						}
 					}
 				} else {
 					// This group have no chat data

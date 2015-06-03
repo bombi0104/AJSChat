@@ -1,4 +1,6 @@
 'use strict';
+
+require('log-timestamp');
 var mongoose = require('mongoose');
 var User = require('../models/User.js');
 

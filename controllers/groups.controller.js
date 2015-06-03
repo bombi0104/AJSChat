@@ -1,5 +1,6 @@
 'use strict';
 
+require('log-timestamp');
 var mongoose = require('mongoose');
 var ObjectId = require('mongoose').Types.ObjectId;
 

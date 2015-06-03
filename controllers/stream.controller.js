@@ -1,5 +1,6 @@
 'use strict';
 
+require('log-timestamp');
 var events = require('events');
 var eventEmitter = new events.EventEmitter();
 
