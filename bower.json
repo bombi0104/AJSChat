@@ -11,6 +11,8 @@
     "angular-scroll-glue": "~2.0.5",
     "angular-bootstrap": "~0.13.0",
     "bootstrap-css-only": "~3.3.4",
-    "angular-cookies": "~1.4.0"
+    "angular-cookies": "~1.4.0",
+    "angular-emoji-filter": "~0.0.2",
+    "angular-sanitize": "~1.4.0"
   }
 }

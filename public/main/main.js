@@ -5,7 +5,9 @@ angular.module('AJSChat.main', [
 	'luegg.directives', 
 	'ui.bootstrap',
 	'AJSChat.factories',
-	'ngCookies'])
+	'ngCookies',
+	'ngSanitize',
+	'emoji'])
 
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/', {
@@ -25,7 +27,13 @@ angular.module('AJSChat.main', [
     	templateUrl: 'SelectToUserTemplate.html',
     	title: 'Select users'
 	}
-	
+
+	$scope.EmojiPopover = {
+    	templateUrl: 'EmojiTemplate.html',
+    	emoji: ":smile::smiley::laughing::relaxed::stuck_out_tongue_winking_eye::+1::-1::v::shit::bow::no_good::cyclone:"
+		// http://www.emoji-cheat-sheet.com/
+	}
+
 	
 	/**
 	 * SignUp dialog
@@ -126,15 +134,17 @@ angular.module('AJSChat.main', [
      **/
 	$scope.sendMsg = function(e){
 		if (e.shiftKey && (e.keyCode == 13)) {
-			Messages.sendMessage($scope.group._id, $scope.user._id, $scope.inputMsg)
-				.success(function(msg){
-					$scope.inputMsg = ""; //Clear inputed message
-					receiveMsg(msg);
-					console.log("Send msg : ", msg.content);
-				})
-				.error(function (error) {
-			        alert("aaa   = " + error.messages);
-		        });
+			if ($scope.inputMsg.trim().length > 0){
+				Messages.sendMessage($scope.group._id, $scope.user._id, $scope.inputMsg)
+					.success(function(msg){
+						receiveMsg(msg);
+						console.log("Send msg : ", msg.content);
+					})
+					.error(function (error) {
+				        alert("aaa   = " + error.messages);
+			        });
+			}
+		    $scope.inputMsg = ""; //Clear inputed message
 		}
 	}
 
