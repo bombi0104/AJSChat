@@ -20,6 +20,11 @@ angular.module('AJSChat.main', [
 	$scope.user = $cookies.getObject('user');
 	$scope.groups = {};
 	$scope.group = {}; //Selected group;
+	$scope.selectUserPopover = {
+		content: 'Hello, World!',
+    	templateUrl: 'SelectToUserTemplate.html',
+    	title: 'Select users'
+	}
 	
 	
 	/**
@@ -344,6 +349,10 @@ angular.module('AJSChat.main', [
     $scope.formatDate = function(st){
     	var tmp = st.match(/^\d{4}-(\d{2})-(\d{2})T(\d{2}):(\d{2})/);
     	return tmp[2] + '/' + tmp[1] + ' ' + tmp[3] + ':' + tmp[4];  //dd/MM hh:mm
+    }
+
+    $scope.selectToUser = function(user){
+    	console.log("To user : ", user.name);
     }
 }])
 

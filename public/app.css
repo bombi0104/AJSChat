@@ -59,3 +59,13 @@ body {
 	padding: 10px;
 	font-size: xx-large
 }
+
+.popoverSelectUser {
+	height:200px; 
+	overflow: scroll;
+}
+
+.popoverUserItem {
+	padding: 4px 0px 4px 0px;
+
+}
