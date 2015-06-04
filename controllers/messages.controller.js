@@ -62,7 +62,7 @@ exports.getMessageInGroup = function(req, res) {
   Message
     .find({group:req.params.id})
     .sort({created_at:-1})
-    .limit(20)
+    .limit(50)
     .populate('from_user', 'name')
     .exec(function (err, msgs) {
       if (err) return next(err);
@@ -99,7 +99,7 @@ exports.getNext = function(req, res, next){
   .find({group:req.params.id})
   .where('created_at').lt(req.params.time)
   .sort({created_at:-1})
-  .limit(20)
+  .limit(50)
   .populate('from_user', 'name')
   .exec(function (err, msgs) {
     if (err) return next(err);

@@ -362,7 +362,14 @@ angular.module('AJSChat.main', [
     }
 
     $scope.selectToUser = function(user){
-    	console.log("To user : ", user.name);
+    	
+    }
+
+    $scope.onMessageClick = function(index){
+    	if (index == 0){
+    		$scope.loadMore();
+    		console.log("loadMore");
+    	}
     }
 }])
 
