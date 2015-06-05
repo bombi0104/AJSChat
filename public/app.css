@@ -25,7 +25,7 @@ body {
 .header-panel {
 	height: 60px;
 	/*border-bottom: 1px solid grey;*/
-	background-color: #E0E0E0;
+	background-color: #3B78E6;
 }
 
 .contact-panel {
@@ -57,7 +57,8 @@ body {
 
 .group-name {
 	padding: 10px;
-	font-size: xx-large
+	font-size: xx-large;
+	color: #CCFFFF;
 }
 
 .popoverSelectUser {
