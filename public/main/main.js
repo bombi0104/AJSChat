@@ -22,6 +22,7 @@ angular.module('AJSChat.main', [
 	$scope.user = $cookies.getObject('user');
 	$scope.groups = {};
 	$scope.group = {}; //Selected group;
+	$scope.inputMsg = "";
 	$scope.selectUserPopover = {
 		content: 'Hello, World!',
     	templateUrl: 'SelectToUserTemplate.html',
@@ -30,7 +31,7 @@ angular.module('AJSChat.main', [
 
 	$scope.EmojiPopover = {
     	templateUrl: 'EmojiTemplate.html',
-    	emoji: ":smile::smiley::laughing::relaxed::stuck_out_tongue_winking_eye::+1::-1::v::shit::bow::no_good::cyclone:"
+    	emoji: [":smile:",":laughing:",":+1:",":-1:",":smiley:",":relaxed:",":stuck_out_tongue_winking_eye:",":cyclone:",":no_good:",":bow:",":shit:"]
 		// http://www.emoji-cheat-sheet.com/
 	}
 
@@ -382,6 +383,10 @@ angular.module('AJSChat.main', [
     	$scope.groups = null;
 
     	window.location.reload();
+    }
+
+    $scope.insertEmoji = function(index){
+    	$scope.inputMsg = $scope.inputMsg + $scope.EmojiPopover.emoji[index];
     }
 }])
 

@@ -73,7 +73,7 @@
 <!-- Select to user popoverTemplate -->
 <script type="text/ng-template" id="EmojiTemplate.html">
 <div class="Emoji-popover">
-    <div ng-bind-html="EmojiPopover.emoji | emoji"></div>
+    <span ng-repeat="icon in EmojiPopover.emoji"><span ng-click="insertEmoji($index);" ng-bind-html="icon | emoji"></span></span>
 </div>
 </script>
 
