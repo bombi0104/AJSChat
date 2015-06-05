@@ -50,14 +50,14 @@ angular.module('AJSChat.main', [
 		});
 
 		modalInstance.result.then(function(user) {
-			console.log("Return user = ", User.me)
+			// console.log("Return user = ", User.me)
 			$scope.user = user;	
 			$cookies.putObject('user', user);
-			console.log("Cookies = ", $cookies.getObject('user'));
+
 			startSSE();
 			getGroups();
 		}, function (dismiss_msg) {
-			console.log('Modal dismissed at: ' + new Date() + "    " + dismiss_msg);
+			// console.log('Modal dismissed at: ' + new Date() + "    " + dismiss_msg);
 		})
 	}
 	
@@ -77,7 +77,7 @@ angular.module('AJSChat.main', [
 		});
 
 		modalInstance.result.then(function(user) {
-			console.log("Return user = ", User.me)
+			// console.log("Return user = ", User.me)
 			$scope.user = user;	
 			$cookies.putObject('user', user);
 			startSSE();
@@ -86,7 +86,7 @@ angular.module('AJSChat.main', [
 			if (dismiss_msg == "signup"){
 				openSignUpDialog();
 			}
-			console.log('Modal dismissed at: ' + new Date() + "    " + dismiss_msg);
+			// console.log('Modal dismissed at: ' + new Date() + "    " + dismiss_msg);
 		})
 	}
 
@@ -138,7 +138,7 @@ angular.module('AJSChat.main', [
 				Messages.sendMessage($scope.group._id, $scope.user._id, $scope.inputMsg)
 					.success(function(msg){
 						receiveMsg(msg);
-						console.log("Send msg : ", msg.content);
+						//console.log("Send msg : ", msg.content);
 					})
 					.error(function (error) {
 				        alert("aaa   = " + error.messages);
@@ -269,7 +269,7 @@ angular.module('AJSChat.main', [
 		modalInstance.result.then(function (selectedItem) {
 			$scope.selected = selectedItem;
 			}, function () {
-				console.log('Modal dismissed at: ' + new Date());
+				// console.log('Modal dismissed at: ' + new Date());
 			});
 	}
 
@@ -310,7 +310,7 @@ angular.module('AJSChat.main', [
 		modalInstance.result.then(function (group) {
 			$scope.groups.push(group);
 			}, function () {
-				console.log('Modal dismissed at: ' + new Date());
+				// console.log('Modal dismissed at: ' + new Date());
 			});
 	}
 	
@@ -368,8 +368,20 @@ angular.module('AJSChat.main', [
     $scope.onMessageClick = function(index){
     	if (index == 0){
     		$scope.loadMore();
-    		console.log("loadMore");
+    		// console.log("loadMore");
     	}
+    }
+
+    $scope.reload = function(){
+    	window.location.reload();
+    }
+
+    $scope.signout = function(){
+    	$cookies.remove('user');
+    	$scope.user = null;
+    	$scope.groups = null;
+
+    	window.location.reload();
     }
 }])
 
@@ -379,8 +391,8 @@ angular.module('AJSChat.main', [
 	$scope.user = _user;
 	$scope.users = {};
 
-	console.log("Group Users : ", $scope.group);
-	console.log("Users : ", $scope.user);
+	// console.log("Group Users : ", $scope.group);
+	// console.log("Users : ", $scope.user);
 
 	User.getAll()
 		.success(function(users){
