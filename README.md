@@ -27,3 +27,11 @@ Setup on ubuntu :
 2. Install NodeJS
   curl -sL https://deb.nodesource.com/setup_0.12 | sudo bash -
   sudo apt-get install nodejs
+
+==============
+Start service on server
+Using https://github.com/Unitech/pm2
+- Install PM2
+npm install pm2 -g
+
+pm2 start bin/www
