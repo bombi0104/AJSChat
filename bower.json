@@ -13,6 +13,7 @@
     "bootstrap-css-only": "~3.3.4",
     "angular-cookies": "~1.4.0",
     "angular-emoji-filter": "~0.0.2",
-    "angular-sanitize": "~1.4.0"
+    "angular-sanitize": "~1.4.0",
+    "jquery": "~2.1.4"
   }
 }

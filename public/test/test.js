@@ -14,4 +14,6 @@ angular.module('AJSChat.test', ['emoji','ngSanitize'])
 	$scope.trustHTML = function(str){
 		return $sce.trustAsHtml(str);
 	}
+
+	var ele = angular.element('#aaa').focus();
 }]);
