@@ -190,41 +190,37 @@ angular.module('AJSChat.main', [
 	 * receiveMsg
      **/
 	var receiveMsg = function(msg){
-		$scope.groups.forEach(function(gr){
-			if (gr._id == msg.group) {
-				if (gr.messages != null ) {
-					if (!isExistMsgInGroup(gr, msg)){
-						gr.messages.push(msg);
+		var gr = $scope.groups.getbyId(msg.group);
+		
+		if (gr.messages != null ) {
+			if (!isExistMsgInGroup(gr, msg)){
+				gr.messages.push(msg);
 
+				// Update unread count
+				plusOneToUnread(gr);
+				if (msg.from_user._id != $scope.user._id){
+					notifyMe(gr.name, msg.content);	
+				}
+
+				$scope.groups.moveTop(gr);
+			}
+		} else {
+			// This group have no chat data
+			// first, get messages of this group from server
+			Messages.getMessagesOfGroup(gr._id)
+				.success(function(msg){
+					if (msg != null) {
+						gr.messages = msg;
 						// Update unread count
 						plusOneToUnread(gr);
-						if (msg.from_user._id != $scope.user._id){
-							notifyMe(gr.name, msg.content);	
-						}
 
 						$scope.groups.moveTop(gr);
 					}
-				} else {
-					// This group have no chat data
-					// first, get messages of this group from server
-					Messages.getMessagesOfGroup(gr._id)
-						.success(function(msg){
-							if (msg != null) {
-								gr.messages = msg;
-								// Update unread count
-								plusOneToUnread(gr);
-
-								$scope.groups.moveTop(gr);
-							}
-						})
-						.error(function (error) {
-				        	alert("aaa   = " + error.messages);
-			        	});
-				}
-
-				return;
-			}
-		})
+				})
+				.error(function (error) {
+		        	alert("aaa   = " + error.messages);
+	        	});
+		}
 	};
 
 
