@@ -32,6 +32,7 @@ exports.getAll = function(req, res, next){
 exports.getGroupsOfUser = function(req, res, next){
   Group.find({users : req.params.id})
     .populate('users', 'name email')
+    .sort({updated_at:-1})
     .exec(function (err, groups) {
       if (err) return next(err);
       res.json(groups);
@@ -126,5 +127,23 @@ var getGroupById = function(groupid, next){
     .exec(function (err, group) {
       if (err) return next(err);
       next(group);
+    });
+}
+
+exports.updateTime = function(groupid){
+  Group.findOne({_id : groupid})
+    .exec(function (err, group) {
+      if (err) {
+        console.log("GroupsController","updateTime","findOne Error");
+        return;
+      }
+
+      group.updated_at = Date.now();
+
+      group.save(function(err) {
+        if (err) { 
+          console.log("GroupsController","updateTime","Save error");
+        }
+      });
     });
 }

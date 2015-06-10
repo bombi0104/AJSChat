@@ -5,8 +5,8 @@ var mongoose = require('mongoose');
 var ObjectId = require('mongoose').Types.ObjectId;
 var Message = require('../models/Message.js');
 
-var streamController = require('../controllers/stream.controller.js');
-var groupsController = require('../controllers/groups.controller.js');
+var streamCtrl = require('../controllers/stream.controller.js');
+var groupsCtrl = require('../controllers/groups.controller.js');
 
 /**
  * Get all messages.
@@ -36,9 +36,10 @@ exports.create = function(req, res) {
     message.from_user = req.from_user;
 
     res.json(message);
+    groupsCtrl.updateTime(req.body.group);
 
     // Send realtime message to all user
-    streamController.sendMessage(message, req.users);
+    streamCtrl.sendMessage(message, req.users);
   });
 }
 

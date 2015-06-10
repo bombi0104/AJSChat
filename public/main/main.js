@@ -201,6 +201,8 @@ angular.module('AJSChat.main', [
 						if (msg.from_user._id != $scope.user._id){
 							notifyMe(gr.name, msg.content);	
 						}
+
+						moveGroupToTop(gr._id);
 					}
 				} else {
 					// This group have no chat data
@@ -211,6 +213,8 @@ angular.module('AJSChat.main', [
 								gr.messages = msg;
 								// Update unread count
 								plusOneToUnread(gr);
+
+								moveGroupToTop(gr._id);
 							}
 						})
 						.error(function (error) {
@@ -220,6 +224,23 @@ angular.module('AJSChat.main', [
 			}
 		})
 	};
+
+
+	/**
+	 * When have a message, move that message group to top of list.
+     **/
+	var moveGroupToTop = function(grid){
+		for (var i = 0; i < $scope.groups.length; i++) {
+			if ($scope.groups[i]._id == grid){
+				var gr = $scope.groups[i];
+				$scope.groups.splice(i,1); //Remove item at i
+				$scope.groups.splice(0,0,gr); // Add removed item to top
+
+				break;
+			}
+		};
+	}
+
 
 	/**
 	 *
