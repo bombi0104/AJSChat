@@ -39,6 +39,17 @@ exports.getGroupsOfUser = function(req, res, next){
     });
 }
 
+exports.getGroups = function(req, res, next){
+  Group.find({users : req.params.id})
+    .populate('users', 'name email')
+    .sort({updated_at:-1})
+    .exec(function (err, groups) {
+      if (err) return next(err);
+      //groups.push(req.users);
+      res.json(groups.concat(req.users));
+    });
+}
+
 /* POST /groups */
 exports.createGroup = function(req, res, next) {
   var group = new Group({name:req.body.name});

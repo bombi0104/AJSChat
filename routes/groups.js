@@ -2,11 +2,14 @@ var express = require('express');
 var router = express.Router();
 
 var groups = require('../controllers/groups.controller.js');
+var users = require('../controllers/users.controller.js');
 
 /* GET groups listing. */
 router.get('/', groups.getAll);
 /* GET groups by userid */
 router.get('/user/:id', groups.getGroupsOfUser);
+/* GET groups by userid */
+router.get('/user2/:id', users.getAll, groups.getGroups);
 /* POST /groups */
 router.post('/', groups.createGroup);
 /* POST /groups/:id/adduser */

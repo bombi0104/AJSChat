@@ -119,7 +119,7 @@ angular.module('AJSChat.main', [
 				}
 			})
 			.error(function (error) {
-		        alert("aaa   = " + error.messages);
+				console.log("getGroups Error : ", error);
 	        });
     }
 

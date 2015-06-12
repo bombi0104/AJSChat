@@ -15,12 +15,13 @@ exports.getFromUser = function(req, res, next){
   });
 }
 
-
 /* GET users listing. */
 exports.getAll = function(req, res, next) {
   User.find(function (err, users) {
     if (err) return next(err);
-    res.json(users);
+    req.users = users;
+    next();
+    // res.json(users);
   });
 }
 

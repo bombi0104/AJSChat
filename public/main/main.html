@@ -1,12 +1,14 @@
 <div class="container-fluid no-pading">
 	<div class="left-panel pull-left">
 		<div class="header-panel">
+            <input type=text ng-model="searchGr.name" style="border: none; border-color: transparent; background-color: transparent;">
 		</div>  
 		<div class="contact-panel">
 			<div class="list-group">
-  				<a class="list-group-item" ng-repeat="gr in groups" ng-click="selectGroup(gr)" ng-class="{'active':gr.active}">
+  				<a class="list-group-item" ng-repeat="gr in groups | filter:searchGr" ng-click="selectGroup(gr)" ng-class="{'active':gr.active}">
               		<span class="badge" ng-hide="gr.unread == 0">{{gr.unread}}</span>
-              		<span class="glyphicon glyphicon-th-large"></span>
+              		<span class="glyphicon glyphicon-th-large" ng-hide="gr.email"></span>
+                    <span class="glyphicon glyphicon-user" ng-hide="!gr.email"></span>
               		{{gr.name}}
               	</a>
 			</div>

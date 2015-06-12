@@ -39,7 +39,7 @@ angular.module('AJSChat.factories', [])
 	var _factory = {};
 	
 	_factory.getAllGroupOfUser = function(userId){
-		return $http.get(urlBase + '/user/' + userId);
+		return $http.get(urlBase + '/user2/' + userId);
 	}
 
 	_factory.create = function(name, userId) {
