@@ -75,9 +75,15 @@ pre {
 	background-color: transparent;
 	border: none;
 	padding-bottom: 0px;
+	font-family: Verdana, Geneva, sans-serif;
 }
 
 .nickname {
 	color: #0084B3;
 	font-weight:bold;
+}
+
+.msg-time {
+	font-weight:lighter;
+	font-size: 10px;
 }

@@ -46,7 +46,7 @@
 				<!-- <li><button type="button" class="btn btn-info btn-sm" ng-click="loadMore();"><span class="glyphicon glyphicon-cloud-download"></span>Load more...</button></ -->
             	<li class="list-group-item" ng-repeat="msg in group.messages" ng-click="onMessageClick($index);">
 	              	<div class='pull-left nickname'>{{msg.from_user.name}}</div>
-	              	<div class='pull-right msg-date small'>{{formatDate(msg.updated_at)}}</div>
+	              	<div class='pull-right msg-time'>{{formatDate(msg.updated_at)}}</div>
 	              	<br />
                     <pre ng-bind-html="msg.content | emoji"></pre>
             	</li>
