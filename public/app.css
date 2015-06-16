@@ -70,3 +70,14 @@ body {
 	padding: 4px 0px 4px 0px;
 
 }
+
+pre {
+	background-color: transparent;
+	border: none;
+	padding-bottom: 0px;
+}
+
+.nickname {
+	color: #0084B3;
+	font-weight:bold;
+}
