@@ -16,7 +16,7 @@ angular.module('AJSChat.main', [
   });
 }])
 
-.controller('MainCtrl', ['$scope', '$timeout', 'User', 'Groups', 'Messages', '$modal', '$cookies', '$window'
+.controller('MainCtrl', ['$scope', '$timeout', 'User', 'Groups', 'Messages', '$modal', '$cookies', '$window',
 	function($scope, $timeout, User, Groups, Messages, $modal, $cookies, $window) {
 	$scope.glued = true;
 	$scope.user = $cookies.getObject('user');
