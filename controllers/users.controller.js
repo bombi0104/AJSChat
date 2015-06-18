@@ -21,7 +21,6 @@ exports.getAll = function(req, res, next) {
     if (err) return next(err);
     req.users = users;
     next();
-    // res.json(users);
   });
 }
 

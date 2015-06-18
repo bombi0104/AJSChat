@@ -16,8 +16,8 @@ angular.module('AJSChat.main', [
   });
 }])
 
-.controller('MainCtrl', ['$scope', '$timeout', 'User', 'Groups', 'Messages', '$modal', '$cookies', 
-	function($scope, $timeout, User, Groups, Messages, $modal, $cookies) {
+.controller('MainCtrl', ['$scope', '$timeout', 'User', 'Groups', 'Messages', '$modal', '$cookies', '$window'
+	function($scope, $timeout, User, Groups, Messages, $modal, $cookies, $window) {
 	$scope.glued = true;
 	$scope.user = $cookies.getObject('user');
 	$scope.groups = {};
@@ -336,6 +336,11 @@ angular.module('AJSChat.main', [
   			}
             
             var notification = new Notification(groupName, options);
+
+            notification.onclick = function(){
+            	$window.focus();
+            }
+
             $timeout(function(){
             	notification.close();
             }, 5000);
