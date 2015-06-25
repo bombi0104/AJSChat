@@ -1,8 +1,28 @@
 <div class="container-fluid no-pading">
+    <div class="header-panel">
+        <span>
+        <input type=text ng-model="searchGr.name" style="border: none; border-color: transparent; background-color: transparent;"></span>
+        <span class="group-name">{{group.name}}</span>
+        <span>{{user.name}}</span>
+        <span class="bigfont">
+            <a ng-repeat="user in group.users" 
+                tooltip-placement="bottom"
+                tooltip="{{user.name}}"><span class="glyphicon glyphicon-user"></span>   </a>
+        </span>
+        <span class="pull-right">
+            <div class="btn-group" dropdown is-open="status.isopen" style="padding:10px 10px 0px 0px;">
+                <a dropdown-toggle><span class="glyphicon glyphicon-download bigfont"></span></span></a>
+                    <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                        <li><a ng-click="openCreateGroupDialog();">Create Group</a></li>
+                        <li><a ng-click="addUserToGroup();">Group Members</a></li>
+                        <li class="divider"></li>
+                        <li><a ng-click="reload();"><span class="glyphicon glyphicon-home"></span>   Reload</a></li>
+                        <li><a ng-click="signout()"><span class="glyphicon glyphicon-log-out"></span>   Sign Out</a></li>
+                  </ul>
+            </div>
+        </span>
+    </div>
 	<div class="left-panel pull-left">
-		<div class="header-panel">
-            <input type=text ng-model="searchGr.name" style="border: none; border-color: transparent; background-color: transparent;">
-		</div>  
 		<div class="contact-panel">
 			<div class="list-group">
   				<a class="list-group-item" ng-repeat="gr in groups | filter:searchGr" ng-click="selectGroup(gr)" ng-class="{'active':gr.active}">
@@ -15,32 +35,6 @@
 		</div>
 	</div>
 	<div class="right-panel pull-right">
-		<div class="header-panel">
-			<div class="pull-left group-name"><b>{{group.name}}</b></div>
-			<div class="pull-right">
-				{{user.name}}
-				<br />
-				<div >
-					<span class="glyphicon glyphicon-user" 
-						ng-repeat="user in group.users" 
-						tooltip-placement="bottom"
-						tooltip="{{user.name}}">　</span>
-					<button type="button" class="btn btn-info btn-sm" ng-click="addUserToGroup();"><span class="glyphicon glyphicon-plus"></span></button>
-                    <!-- Dropdown menu button -->
-                    <div class="btn-group" dropdown is-open="status.isopen">
-                      <button type="button" class="btn btn-info btn-sm dropdown-toggle" dropdown-toggle ng-disabled="disabled"><span class="glyphicon glyphicon-cog"></span></span>
-                      </button>
-                      <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                        <li><a ng-click="openCreateGroupDialog();">Create Group</a></li>
-                        <li class="divider"></li>
-                        <li><a ng-click="reload();"><span class="glyphicon glyphicon-home"></span>   Reload</a></li>
-                        <li><a ng-click="signout()"><span class="glyphicon glyphicon-log-out"></span>   Sign Out</a></li>
-                      </ul>
-                    </div>
-				</div>
-
-			</div>
-		</div>
 		<div class="message-panel" scroll-glue>
 			<ul class="list-group">
 				<!-- <li><button type="button" class="btn btn-info btn-sm" ng-click="loadMore();"><span class="glyphicon glyphicon-cloud-download"></span>Load more...</button></ -->

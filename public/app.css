@@ -24,13 +24,14 @@ body {
 }
 
 .header-panel {
-	height: 60px;
+	height: 45px;
 	/*border-bottom: 1px solid grey;*/
-	background-color: #3B78E6;
+	background-color: #3F6093;
+	color:white;
 }
 
 .contact-panel {
-	height: calc(100vh - 60px);
+	height: calc(100vh - 45px);
 	background-color: white;
 	overflow: scroll;
 }
@@ -41,7 +42,7 @@ body {
 }
 
 .message-panel {
-	height: calc(100vh - 154px);
+	height: calc(100vh - 140px);
 	background-color: white;
 	overflow: scroll;
 }
@@ -87,4 +88,8 @@ pre {
 .msg-time {
 	font-weight:lighter;
 	font-size: 10px;
+}
+
+.bigfont {
+	font-size: 25px;
 }
