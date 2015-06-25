@@ -19,7 +19,7 @@ angular.module('AJSChat.main', [
 	function($scope, $timeout, User, Groups, Messages, $modal, $cookies, $window) {
 	$scope.glued = true;
 	$scope.user = $cookies.getObject('user');
-	$scope.groups = {};
+	$scope.groups = [];
 	$scope.group = {}; //Selected group;
 	$scope.inputMsg = "";
 	$scope.selectUserPopover = {
