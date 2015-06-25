@@ -48,16 +48,11 @@
 	              	<div class='pull-left nickname'>{{msg.from_user.name}}</div>
 	              	<div class='pull-right msg-time'>{{formatDate(msg.updated_at)}}</div>
 	              	<br />
-                    <pre ng-bind-html="msg.content | emoji"></pre>
+                    <pre>{{msg.content}}</pre>
             	</li>
           	</ul>
-			<!-- <pre ng-repeat="msg in group.messages">{{msg.content}}</pre> -->
 		</div>
 		<div class="chat-panel">
-            <button type="button" class="btn btn-default btn-sm" popover-template="selectUserPopover.templateUrl" popover-title="{{selectUserPopover.title}}" popover-trigger="focus"><span class="glyphicon glyphicon-share-alt"></span><span class="glyphicon glyphicon-user"></span></button>
-
-            <button type="button" class="btn btn-default btn-sm" popover-template="EmojiPopover.templateUrl" popover-trigger="focus"><span class="glyphicon glyphicon-heart"></span></button>
-
 			<textarea class="chat-area" ng-model="inputMsg" ng-keyup="sendMsg($event);" placeholder="Enter your message here...(Shift-Enter for send)"></textarea>
 		</div>
 	</div>

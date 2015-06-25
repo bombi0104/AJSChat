@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('AJSChat.test', ['emoji','ngSanitize'])
+angular.module('AJSChat.test', ['ngSanitize'])
 
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/test', {

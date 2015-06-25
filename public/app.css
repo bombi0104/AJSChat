@@ -35,18 +35,18 @@ body {
 }
 
 .chat-panel {
-	height: 120px;
+	height: 90px;
 	border-top: 1px solid grey;
 }
 
 .message-panel {
-	height: calc(100vh - 180px);
+	height: calc(100vh - 154px);
 	background-color: white;
 	overflow: scroll;
 }
 
 .chat-area {
-	height: calc(100% - 40px);
+	height: 100%;
 	width: 100%;
 	border: none;
     overflow: auto;

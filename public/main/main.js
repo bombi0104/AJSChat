@@ -6,8 +6,7 @@ angular.module('AJSChat.main', [
 	'ui.bootstrap',
 	'AJSChat.factories',
 	'ngCookies',
-	'ngSanitize',
-	'emoji'])
+	'ngSanitize'])
 
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/', {
@@ -28,13 +27,6 @@ angular.module('AJSChat.main', [
     	templateUrl: 'SelectToUserTemplate.html',
     	title: 'Select users'
 	}
-
-	$scope.EmojiPopover = {
-    	templateUrl: 'EmojiTemplate.html',
-    	emoji: [":smile:",":laughing:",":+1:",":-1:",":smiley:",":relaxed:",":stuck_out_tongue_winking_eye:",":cyclone:",":no_good:",":bow:",":shit:"]
-		// http://www.emoji-cheat-sheet.com/
-	}
-
 	
 	/**
 	 * SignUp dialog
@@ -391,10 +383,6 @@ angular.module('AJSChat.main', [
     	$scope.groups = null;
 
     	window.location.reload();
-    }
-
-    $scope.insertEmoji = function(index){
-    	$scope.inputMsg = $scope.inputMsg + $scope.EmojiPopover.emoji[index];
     }
 }])
 
