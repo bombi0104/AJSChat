@@ -9,4 +9,6 @@ router.get('/:uid', streamController.registUser);
 // Send message to all connection
 router.post('/', streamController.chat);
 
+router.get('/sse_test', streamController.sse_test);
+
 module.exports = router;

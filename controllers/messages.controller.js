@@ -44,6 +44,31 @@ exports.create = function(req, res) {
 }
 
 /**
+ * Create new message to DB
+ */
+exports.create2User = function(req, res) {
+  var message = new Message({
+    from_user : ObjectId(req.body.from_user),
+    to_user : ObjectId(req.body.to_user),
+    content : req.body.content
+  });
+
+  message.save(function(err){
+    if (err) {
+      return next(err);
+    }
+
+    message.from_user = req.from_user;
+    var users = [];
+    users.push(req.to_user);
+
+    res.json(message);
+    // Send realtime message to all user
+    streamCtrl.sendMessage(message, users);
+  });
+}
+
+/**
  * Get message by id
  */
 exports.getById = function(req, res) {

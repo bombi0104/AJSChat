@@ -15,6 +15,17 @@ exports.getFromUser = function(req, res, next){
   });
 }
 
+/**
+ * Get user by Name
+ */
+exports.get2User = function(req, res, next){
+  User.findById(req.body.to_user, function (err, user) {
+    if (err) return next(err);
+    req.to_user = user;
+    next();
+  });
+}
+
 /* GET users listing. */
 exports.getAll = function(req, res, next) {
   User.find(function (err, users) {

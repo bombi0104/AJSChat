@@ -35,7 +35,7 @@ exports.registUser = function(req, res){
  * Send message to all connection and return OK code.
  */
 exports.chat = function(req, res){
-  	eventEmitter.emit('Chat', req.body);
+  	eventEmitter.emit('test', {data:"aaa"});
   	res.json({result:'OK'});
 }
 
@@ -68,4 +68,27 @@ function startSees(res) {
     if(id) res.write("id: " + id + "\n");
     res.write("data: " + JSON.stringify(data) + "\n\n");
   }
+}
+
+/* Server send event start */
+exports.sse_test = function(req, res) {
+  var sse = startSees(res);
+  eventEmitter.on('test', sendChat)
+    
+    console.log("New connection");
+
+    req.once("end", function() {
+      eventEmitter.removeListener("Chat", sendChat);
+      console.log("Remove connection : ", req.params.uid);
+    });
+
+    req.on("close", function() {
+      eventEmitter.removeListener("Chat", sendChat);
+      console.log("Remove connection onClose : ", req.params.uid);  
+    });
+       
+    function sendChat(chat, users) {
+      console.log("sendChat's users : ", users);
+      sse("chat", chat);
+    }
 }

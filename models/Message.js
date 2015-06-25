@@ -10,6 +10,10 @@ var MessageSchema = new Schema({
   	type: Schema.ObjectId,
   	ref: 'User'
   },
+  to_user: {
+    type: Schema.ObjectId,
+    ref: 'User'
+  },
   to_users: [{
   	type: Schema.ObjectId,
   	ref:'User'

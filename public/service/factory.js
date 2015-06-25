@@ -86,6 +86,16 @@ angular.module('AJSChat.factories', [])
         return $http.post(urlBase, msgObj);
 	}
 
+	_factory.send2User = function(from_uid, to_uid, msg){
+		var msgObj = {
+                from_user: from_uid,
+                to_user: to_uid,
+                content: msg
+            }
+
+        return $http.post(urlBase + '/2user', msgObj);
+	}
+
 	_factory.loadMore = function(groupId, time){
 		return $http.get(urlBase + '/group/' + groupId + "/from/" + time);
 	}

@@ -7,6 +7,10 @@ var GroupSchema = new Schema({
   users: [{
   	type: Schema.ObjectId,
   	ref:'User'}],
+  isPrivate: {
+    type: Boolean,
+    default: false
+  },
   created_at: { 
   	type: Date, 
   	default: Date.now 

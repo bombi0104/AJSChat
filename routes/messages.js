@@ -9,6 +9,8 @@ var Users = require('../controllers/users.controller.js');
 router.get('/', Messages.getAll);
 /* POST /messages */
 router.post('/', Groups.getUsersInGroup, Users.getFromUser, Messages.create);
+/* POST /messages */
+router.post('/2user', Users.getFromUser, Users.get2User, Messages.create2User);
 /* GET /messages/id */
 router.get('/:id', Messages.getById);
 /* GET /messages/group/id */

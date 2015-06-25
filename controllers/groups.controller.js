@@ -39,13 +39,52 @@ exports.getGroupsOfUser = function(req, res, next){
     });
 }
 
+exports.getPrivateGroupOfUser = function(req, res, next){
+    Group.findOne({users : req.params.id})
+    .populate('users', 'name email')
+    .sort({updated_at:-1})
+    .exec(function (err, groups) {
+      if (err) return next(err);
+      res.json(groups);
+    });
+}
+
+
+var deleteByID = function(arr, id){
+  for (var i = 0; i < arr.length; i++) {
+    if (arr[i]._id == id){
+      arr.splice(i, 1);
+      break;
+    }
+  };
+}
+
 exports.getGroups = function(req, res, next){
   Group.find({users : req.params.id})
     .populate('users', 'name email')
     .sort({updated_at:-1})
     .exec(function (err, groups) {
       if (err) return next(err);
-      //groups.push(req.users);
+
+      // Update private group name by user name
+      groups.forEach(function(gr){
+        if (gr.isPrivate == true){
+          if (gr.users[0]._id == req.params.id){
+            gr.name = gr.users[1].name;
+            gr.email = gr.users[1].email;
+
+            // Remove user from group user, use private group as a contact;
+            deleteByID(req.users, gr.users[1]._id);
+          } else {
+            gr.name = gr.users[0].name;  
+            gr.email = gr.users[0].email;
+
+            // Remove user from group user, use private group as a contact;
+            deleteByID(req.users, gr.users[0]._id);
+          }
+        }
+      });
+
       res.json(groups.concat(req.users));
     });
 }
@@ -64,6 +103,28 @@ exports.createGroup = function(req, res, next) {
 
     getGroupById(group._id, function(gr){
       res.json(gr);
+    });
+  });
+}
+
+/**
+ * Create private groups
+ * private group is group bettwen 2 user.
+ */
+exports.createPrivateGroup = function(req, res, next){
+  var group = new Group({name:req.body.name});
+  req.body.users.forEach(function(userid){
+    group.users.push(ObjectId(userid));
+  });
+  group.isPrivate = true;
+
+  group.save(function(err){
+    if (err) {
+      return next(err);
+    }
+
+    getGroupById(group._id, function(gr){
+      next();
     });
   });
 }
