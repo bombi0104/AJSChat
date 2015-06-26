@@ -15,8 +15,8 @@ angular.module('AJSChat.main', [
   });
 }])
 
-.controller('MainCtrl', ['$scope', '$timeout', 'User', 'Groups', 'Messages', '$modal', '$cookies', '$window',
-	function($scope, $timeout, User, Groups, Messages, $modal, $cookies, $window) {
+.controller('MainCtrl', ['$rootScope', '$scope', '$timeout', 'User', 'Groups', 'Messages', '$modal', '$cookies', '$window',
+	function($rootScope, $scope, $timeout, User, Groups, Messages, $modal, $cookies, $window) {
 	$scope.glued = true;
 	$scope.user = $cookies.getObject('user');
 	$scope.groups = [];
@@ -27,7 +27,12 @@ angular.module('AJSChat.main', [
     	templateUrl: 'SelectToUserTemplate.html',
     	title: 'Select users'
 	}
-	
+
+	$scope.isSseOffline = true;
+	$rootScope.header = "AJSChat";
+
+	var unread = 0;
+
 	/**
 	 * SignUp dialog
      **/
@@ -95,6 +100,20 @@ angular.module('AJSChat.main', [
 	            receiveMsg(chat);
 	        });
 	    });
+
+	    chatEvents.onopen = function(event) {
+	    	console.log("SSE-onopen: ", event);
+	    	$scope.$apply(function(){
+	    		$scope.isSseOffline = false;
+	    	});
+	    };
+
+	    chatEvents.onerror = function(event) {
+	    	console.log("SSE-onerror: ", event);
+	    	$scope.$apply(function(){
+	    		$scope.isSseOffline = true;
+	    	});
+	    };
 	}
 
 	/**
@@ -159,8 +178,20 @@ angular.module('AJSChat.main', [
         	});
 		} else {
 			$scope.group = gr;
+			if ($scope.group.unread != undefined){
+				unread = unread - $scope.group.unread;
+			}
 			$scope.group.unread = 0;
 			updateActiveGroup(gr);
+			updateHeader();
+		}
+	}
+
+	var updateHeader = function() {
+		if (unread <= 0){
+			$rootScope.header = "AJSChat";
+		} else {
+			$rootScope.header = "(" + unread + ") AJSChat";
 		}
 	}
 
@@ -239,6 +270,8 @@ angular.module('AJSChat.main', [
 
 		if (gr._id != $scope.group._id){
 			gr.unread = gr.unread + 1;
+			unread++;
+			updateHeader();
 		}
 	}
 

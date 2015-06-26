@@ -59,7 +59,7 @@ body {
 
 .group-name {
 	padding: 10px;
-	font-size: xx-large;
+	font-size: x-large;
 	color: #CCFFFF;
 }
 
@@ -92,4 +92,19 @@ pre {
 
 .bigfont {
 	font-size: 25px;
+}
+
+.offline {
+	color: brown;
+}
+
+.sseStatusIcon {
+	font-size: 25px;
+	padding: 0px 0px 0px 10px;
+}
+
+.v-center {
+	position: relative;
+  	top: 50%;
+  	transform: translateY(-50%);
 }

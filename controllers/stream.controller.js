@@ -66,6 +66,7 @@ function startSees(res) {
   return function sendSse(name,data,id) {
     res.write("event: " + name + "\n");
     if(id) res.write("id: " + id + "\n");
+    res.write("retry: 3000\n");
     res.write("data: " + JSON.stringify(data) + "\n\n");
   }
 }

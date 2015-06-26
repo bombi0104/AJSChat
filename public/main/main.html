@@ -1,26 +1,26 @@
 <div class="container-fluid no-pading">
-    <div class="header-panel">
-        <span>
-        <input type=text ng-model="searchGr.name" style="border: none; border-color: transparent; background-color: transparent;"></span>
-        <span class="group-name">{{group.name}}</span>
-        <span>{{user.name}}</span>
-        <span class="bigfont">
+    <div class="row header-panel">
+        <div class="col-xs-1 v-center"><span class="glyphicon glyphicon-globe sseStatusIcon" ng-class="{offline: isSseOffline}"></span></div>
+        <div class="col-xs-1 v-center">{{user.name}}</div>
+        <div class="col-xs-4 v-center"><span class="group-name">{{group.name}}</span></div>
+        <div class="col-xs-5" style="padding-top: 10px;">
             <a ng-repeat="user in group.users" 
                 tooltip-placement="bottom"
-                tooltip="{{user.name}}"><span class="glyphicon glyphicon-user"></span>   </a>
-        </span>
-        <span class="pull-right">
-            <div class="btn-group" dropdown is-open="status.isopen" style="padding:10px 10px 0px 0px;">
+                tooltip="{{user.name}}"><span class="glyphicon glyphicon-user bigfont"></span>
+            </a>
+        </div>
+        <div class="col-xs-1" style="padding-top: 10px;">
+            <div class="btn-group" dropdown is-open="status.isopen" >
                 <a dropdown-toggle><span class="glyphicon glyphicon-download bigfont"></span></span></a>
-                    <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                        <li><a ng-click="openCreateGroupDialog();">Create Group</a></li>
-                        <li><a ng-click="addUserToGroup();">Group Members</a></li>
-                        <li class="divider"></li>
-                        <li><a ng-click="reload();"><span class="glyphicon glyphicon-home"></span>   Reload</a></li>
-                        <li><a ng-click="signout()"><span class="glyphicon glyphicon-log-out"></span>   Sign Out</a></li>
-                  </ul>
+                <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                    <li><a ng-click="openCreateGroupDialog();">Create Group</a></li>
+                    <li><a ng-click="addUserToGroup();">Group Members</a></li>
+                    <li class="divider"></li>
+                    <li><a ng-click="reload();"><span class="glyphicon glyphicon-home"></span>   Reload</a></li>
+                    <li><a ng-click="signout()"><span class="glyphicon glyphicon-log-out"></span>   Sign Out</a></li>
+                </ul>
             </div>
-        </span>
+        </div>
     </div>
 	<div class="left-panel pull-left">
 		<div class="contact-panel">
