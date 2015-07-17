@@ -366,9 +366,9 @@ angular.module('AJSChat.main', [
             	$window.focus();
             }
 
-            $timeout(function(){
-            	notification.close();
-            }, 5000);
+            // $timeout(function(){
+            // 	notification.close();
+            // }, 30000);
         }
 
           // Otherwise, we need to ask the user for permission
