@@ -19,6 +19,10 @@ router.get('/group/:id/from/:time', Messages.getNext);
 router.put('/:id', Messages.edit);
 /* DELETE /messages/:id */
 router.delete('/:id', Messages.delete);
+// Get private messages
+router.get('/user/:user1/:user2', Messages.getPrivateMessage);
+// Create private message
+router.post('/user/', Users.getFromUser, Messages.createPrivate);
 
 
 module.exports = router;

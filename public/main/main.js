@@ -125,7 +125,7 @@ angular.module('AJSChat.main', [
 				if (groups != null) {
 					$scope.groups = groups;
 					if ($scope.groups.length > 0){
-						$scope.selectGroup($scope.groups[0]);	
+						$scope.selectGroup($scope.groups[0]);
 					}
 				}
 			})
@@ -147,14 +147,29 @@ angular.module('AJSChat.main', [
 	$scope.sendMsg = function(e){
 		if (e.shiftKey && (e.keyCode == 13)) {
 			if ($scope.inputMsg.trim().length > 0){
-				Messages.sendMessage($scope.group._id, $scope.user._id, $scope.inputMsg)
+				if ($scope.group.email) {
+					// Private message
+					console.log("send private message");
+					Messages.sendPrivateMsg($scope.group._id, $scope.user._id, $scope.inputMsg)
 					.success(function(msg){
 						receiveMsg(msg);
 						//console.log("Send msg : ", msg.content);
 					})
 					.error(function (error) {
 				        alert("aaa   = " + error.messages);
-			        });
+			        });	
+				} else {
+					// Group message
+					Messages.sendMessage($scope.group._id, $scope.user._id, $scope.inputMsg)
+					.success(function(msg){
+						receiveMsg(msg);
+						//console.log("Send msg : ", msg.content);
+					})
+					.error(function (error) {
+				        alert("aaa   = " + error.messages);
+			        });	
+				}
+				
 			}
 		    $scope.inputMsg = ""; //Clear inputed message
 		}
@@ -165,17 +180,31 @@ angular.module('AJSChat.main', [
      **/
 	$scope.selectGroup = function(gr){
 		if (gr.messages == null){
-			Messages.getMessagesOfGroup(gr._id)
-			.success(function(msg){
-				if (msg != null) {
-					gr.messages = msg;
-					$scope.group = gr;
-					updateActiveGroup(gr);
-				}
-			})
-			.error(function (error) {
-	        	alert("aaa   = " + error.messages);
-        	});
+			if (gr.email) {
+				Messages.getPrivateMsg(gr._id, $scope.user._id)
+				.success(function(msg){
+					if (msg != null) {
+						gr.messages = msg;
+						$scope.group = gr;
+						updateActiveGroup(gr);
+					}
+				})
+				.error(function (error) {
+		        	alert("aaa   = " + error.messages);
+	        	});	
+			} else {
+				Messages.getMessagesOfGroup(gr._id)
+				.success(function(msg){
+					if (msg != null) {
+						gr.messages = msg;
+						$scope.group = gr;
+						updateActiveGroup(gr);
+					}
+				})
+				.error(function (error) {
+		        	alert("aaa   = " + error.messages);
+	        	});	
+			}
 		} else {
 			$scope.group = gr;
 			if ($scope.group.unread != undefined){
@@ -213,8 +242,23 @@ angular.module('AJSChat.main', [
 	 * receiveMsg
      **/
 	var receiveMsg = function(msg){
-		var gr = $scope.groups.getbyId(msg.group);
-		
+		var gr = null;
+		if (msg.group) {
+			// is Group message
+			gr = $scope.groups.getbyId(msg.group);
+		} else {
+			// is Private message
+			console.log('Private message:', msg);
+			var guest_user = null;
+			if (msg.from_user._id == $scope.user._id) {
+				guest_user = msg.to_users[0];
+			} else {
+				guest_user = msg.from_user._id;
+			}
+			gr = $scope.groups.getbyId(guest_user);
+		}
+
+		// Update message to screen.
 		if (gr.messages != null ) {
 			if (!isExistMsgInGroup(gr, msg)){
 				gr.messages.push(msg);
@@ -230,7 +274,22 @@ angular.module('AJSChat.main', [
 		} else {
 			// This group have no chat data
 			// first, get messages of this group from server
-			Messages.getMessagesOfGroup(gr._id)
+			if (gr.email) {
+				// private message
+				Messages.getPrivateMsg(gr._id, $scope.user._id)
+				.success(function(msg){
+					if (msg != null) {
+						gr.messages = msg;
+						$scope.group = gr;
+						updateActiveGroup(gr);
+					}
+				})
+				.error(function (error) {
+		        	alert("aaa   = " + error.messages);
+	        	});	
+			} else {
+				// Group message
+				Messages.getMessagesOfGroup(gr._id)
 				.success(function(msg){
 					if (msg != null) {
 						gr.messages = msg;
@@ -243,7 +302,9 @@ angular.module('AJSChat.main', [
 				.error(function (error) {
 		        	alert("aaa   = " + error.messages);
 	        	});
+			}
 		}
+
 	};
 
 

@@ -39,7 +39,7 @@ exports.getGroupsOfUser = function(req, res, next){
     });
 }
 
-exports.getGroups = function(req, res, next){
+exports.getGroupsAndUsers = function(req, res, next){
   Group.find({users : req.params.id})
     .populate('users', 'name email')
     .sort({updated_at:-1})

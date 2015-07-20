@@ -9,7 +9,7 @@ router.get('/', groups.getAll);
 /* GET groups by userid */
 router.get('/user/:id', groups.getGroupsOfUser);
 /* GET groups by userid */
-router.get('/user2/:id', users.getAll, groups.getGroups);
+router.get('/user2/:id', users.getAll, groups.getGroupsAndUsers);
 /* POST /groups */
 router.post('/', groups.createGroup);
 /* POST /groups/:id/adduser */

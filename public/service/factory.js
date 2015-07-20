@@ -90,5 +90,25 @@ angular.module('AJSChat.factories', [])
 		return $http.get(urlBase + '/group/' + groupId + "/from/" + time);
 	}
 
+	/**
+	 * Get private message with a user
+	 **/
+	_factory.getPrivateMsg = function(userid1, userid2) {
+		return $http.get(urlBase + '/user/' + userid1 + "/" + userid2);
+	}
+
+	/**
+	 * Send a private message
+	 **/
+	_factory.sendPrivateMsg = function(toUserId, userId, msg){
+		var msgObj = {
+                from_user: userId,
+                to_users:[toUserId],
+                content: msg
+            }
+
+        return $http.post(urlBase + '/user/', msgObj);
+	}
+
 	return _factory;
 }])
