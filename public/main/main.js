@@ -417,8 +417,8 @@ angular.module('AJSChat.main', [
             // If it's okay let's create a notification
             var options = {
       			body: msg,
-      			tag: 'AJSChat'
-      			// icon: theIcon
+      			tag: 'AJSChat',
+      			icon: 'images/icon_large.png'
   			}
             
             var notification = new Notification(groupName, options);
