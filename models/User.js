@@ -6,6 +6,7 @@ var UserSchema = new Schema({
 	email: String,
 	password: String,
 	token: String,
+	online: String,
 	created_at: { type: Date, default: Date.now },
 	updated_at: { type: Date, default: Date.now },
 });

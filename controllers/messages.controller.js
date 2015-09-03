@@ -21,29 +21,7 @@ exports.getAll = function(req, res){
 /**
  * Create new message to DB
  */
-exports.create = function(req, res) {
-  var message = new Message({
-    group : ObjectId(req.body.group),
-    from_user : ObjectId(req.body.from_user),
-    content : req.body.content
-  });
-
-  message.save(function(err){
-    if (err) {
-      return next(err);
-    }
-
-    message.from_user = req.from_user;
-
-    res.json(message);
-    groupsCtrl.updateTime(req.body.group);
-
-    // Send realtime message to all user
-    streamCtrl.sendMessage(message, req.users);
-  });
-}
-
-exports.create4WC = function(msg, next) {
+exports.create = function(msg, next) {
   var message = new Message({
     group : ObjectId(msg.group),
     from_user : ObjectId(msg.from_user),
@@ -71,25 +49,27 @@ exports.create4WC = function(msg, next) {
 /**
  * Create new private message to DB
  */
-exports.createPrivate = function(req, res) {
+exports.createPrivate = function(msg, next) {
   var message = new Message({
-    from_user : ObjectId(req.body.from_user),
-    content : req.body.content
+    from_user : ObjectId(msg.from_user),
+    content : msg.content
   });
 
-  message.to_users.push(ObjectId(req.body.to_users[0]));
+  message.to_users.push(ObjectId(msg.to_users[0]));
 
   message.save(function(err){
     if (err) {
       return next(err);
     }
-
-    message.from_user = req.from_user;
-
-    res.json(message);
-
-    // Send realtime message to all user
-    streamCtrl.sendMessage(message, req.body.to_users);
+    // Get saved message info and send to WC
+    Message
+    .findOne({ _id: message._id})
+    .populate('from_user', 'name')
+    .populate('to_users', 'name')
+    .exec(function (err, msg) {
+      if (err) return next(err);
+      next(msg);
+    });
   });
 }
 
