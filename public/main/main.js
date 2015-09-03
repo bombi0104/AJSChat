@@ -32,6 +32,7 @@ angular.module('AJSChat.main', [
 	$rootScope.header = "AJSChat";
 
 	var unread = 0;
+	var socket = null;
 
 	/**
 	 * SignUp dialog
@@ -52,7 +53,8 @@ angular.module('AJSChat.main', [
 			$scope.user = user;	
 			$cookies.putObject('user', user);
 
-			startSSE();
+			//startSSE();
+			startSocketIO();
 			getGroups();
 		}, function (dismiss_msg) {
 			// console.log('Modal dismissed at: ' + new Date() + "    " + dismiss_msg);
@@ -78,7 +80,8 @@ angular.module('AJSChat.main', [
 			// console.log("Return user = ", User.me)
 			$scope.user = user;	
 			$cookies.putObject('user', user);
-			startSSE();
+			// startSSE();
+			startSocketIO();
 			getGroups();
 		}, function (dismiss_msg) {
 			if (dismiss_msg == "signup"){
@@ -117,6 +120,35 @@ angular.module('AJSChat.main', [
 	}
 
 	/**
+	 * Start websocket/socket.io
+	 **/
+	var startSocketIO = function() {
+		socket = io();
+
+		socket.on('connect', function(){
+  			console.log("Connected !");
+  			$scope.$apply(function(){
+	    		$scope.isSseOffline = false;
+	    	});
+  		});
+
+  		socket.on('disconnect', function(){
+  			console.log("Disconnected !");
+  			$scope.$apply(function(){
+	    		$scope.isSseOffline = true;
+	    	});
+  		});
+
+		socket.on('message', function(msg){
+			console.log( "Msg: ", msg);
+			$scope.$apply(function(){
+	            //var chat = JSON.parse(msg);
+	            receiveMsg(msg);
+	        });
+  		});
+	}
+
+	/**
 	 *
      **/
     var getGroups = function(){
@@ -137,8 +169,19 @@ angular.module('AJSChat.main', [
 	if ($scope.user == null) {
 		openLoginDialog();
 	} else {
-		startSSE();
+		//startSSE();
+		startSocketIO();
 		getGroups();
+	}
+
+
+	var sendMsgToWC = function() {
+		var msgObj = {
+                group: $scope.group._id,
+                from_user: $scope.user._id,
+                content: $scope.inputMsg
+            }
+		socket.emit('message', msgObj);
 	}
 
 	/**
@@ -150,6 +193,7 @@ angular.module('AJSChat.main', [
 				if ($scope.group.email) {
 					// Private message
 					console.log("send private message");
+					sendMsgToWC();
 					Messages.sendPrivateMsg($scope.group._id, $scope.user._id, $scope.inputMsg)
 					.success(function(msg){
 						receiveMsg(msg);
@@ -160,6 +204,7 @@ angular.module('AJSChat.main', [
 			        });	
 				} else {
 					// Group message
+					sendMsgToWC();
 					Messages.sendMessage($scope.group._id, $scope.user._id, $scope.inputMsg)
 					.success(function(msg){
 						receiveMsg(msg);
@@ -174,6 +219,7 @@ angular.module('AJSChat.main', [
 		    $scope.inputMsg = ""; //Clear inputed message
 		}
 	}
+
 
 	/**
 	 *

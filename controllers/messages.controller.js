@@ -43,6 +43,31 @@ exports.create = function(req, res) {
   });
 }
 
+exports.create4WC = function(msg, next) {
+  var message = new Message({
+    group : ObjectId(msg.group),
+    from_user : ObjectId(msg.from_user),
+    content : msg.content
+  });
+
+  message.save(function(err){
+    if (err) {
+      return next(err);
+    }
+
+    // groupsCtrl.updateTime(msg.group);
+
+    // Get saved message info and send to WC
+    Message
+    .findOne({ _id: message._id})
+    .populate('from_user', 'name')
+    .exec(function (err, msg) {
+      if (err) return next(err);
+      next(msg);
+    });
+  });
+}
+
 /**
  * Create new private message to DB
  */
