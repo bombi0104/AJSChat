@@ -68,3 +68,11 @@ exports.delete = function(req, res, next) {
     res.json(post);
   });
 }
+
+exports.updateStatus = function(userId, status) {
+  User.findById(userId, function (err, user) {
+    if (err) return next(err);
+    user.online = status;
+    user.save();
+  });
+}

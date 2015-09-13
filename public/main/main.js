@@ -90,6 +90,21 @@ angular.module('AJSChat.main', [
 		})
 	}
 
+	var updateUserStatus = function(userId, status) {
+		$scope.$apply(function(){
+			for (var i = 0; i < $scope.groups.length; i++) {
+				if ($scope.groups[i].users) {
+					for (var j = 0; j < $scope.groups[i].users.length; j++) {
+						if ($scope.groups[i].users[j]._id === userId) {
+							$scope.groups[i].users[j].online = status;
+						}
+					}
+				}
+			}
+	    });
+	}
+
+
 	/**
 	 * Start websocket/socket.io
 	 **/
@@ -122,6 +137,11 @@ angular.module('AJSChat.main', [
 
 	 	socket.on('users_status', function(data) {
 	 		console.log( "users_status: ", data);
+	 		if (data.cmd == "LOGIN") {
+	 			updateUserStatus(data.userid, true);
+	 		} else if (data.cmd == "LOGOUT") {
+	 			updateUserStatus(data.userid, false);
+	 		}
 	 	});
 	 }
 
@@ -259,15 +279,21 @@ angular.module('AJSChat.main', [
 		} else {
 			// is Private message
 			console.log('Private message:', msg);
-			var guest_user = null;
-			if (msg.from_user._id == $scope.user._id) {
-				guest_user = msg.to_users[0]._id;
-			} else {
-				guest_user = msg.from_user._id;
-			}
 
-			console.log($scope.groups, guest_user);
-			gr = $scope.groups.getbyId(guest_user);
+			if (msg.from_user._id == $scope.user._id || 
+				msg.to_users[0]._id == $scope.user._id) {
+				var guest_user = null;
+				if (msg.from_user._id == $scope.user._id) {
+					guest_user = msg.to_users[0]._id;
+				} else {
+					guest_user = msg.from_user._id;
+				}
+
+				console.log($scope.groups, guest_user);
+				gr = $scope.groups.getbyId(guest_user);
+			} else {
+				return;
+			}
 		}
 
 		// Update message to screen.
@@ -442,7 +468,7 @@ angular.module('AJSChat.main', [
             // $timeout(function(){
             // 	notification.close();
             // }, 30000);
-}
+		}
 
           // Otherwise, we need to ask the user for permission
           // Note, Chrome does not implement the permission static property
@@ -489,6 +515,10 @@ angular.module('AJSChat.main', [
     	$scope.groups = null;
 
     	window.location.reload();
+    }
+
+    $scope.test = function(){
+    	$scope.group.users[0].online = !$scope.group.users[0].online;
     }
 }])
 

@@ -6,7 +6,7 @@
         <div class="col-xs-5" style="padding-top: 10px;">
             <a ng-repeat="user in group.users" 
                 tooltip-placement="bottom"
-                tooltip="{{user.name}}"><span class="glyphicon glyphicon-user bigfont"></span>
+                tooltip="{{user.name}}"><span class="glyphicon glyphicon-user bigfont" ng-class="{userOffline: !user.online}"></span>
             </a>
         </div>
         <div class="col-xs-1" style="padding-top: 10px;">

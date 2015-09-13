@@ -98,6 +98,10 @@ pre {
 	color: brown;
 }
 
+.userOffline {
+	color: grey;
+}
+
 .sseStatusIcon {
 	font-size: 25px;
 	padding: 0px 0px 0px 10px;

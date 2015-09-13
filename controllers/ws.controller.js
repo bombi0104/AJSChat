@@ -1,5 +1,6 @@
 'use strict';
 var messagesCtrl = require('../controllers/messages.controller.js');
+var userCtrl = require('../controllers/users.controller.js');
 
 // Websocket - Socket.io controller
 module.exports = function (io) {
@@ -27,13 +28,18 @@ module.exports = function (io) {
 			if (data.cmd === "LOGIN") {
 				io.emit("users_status", data);
 				socket.userid = data.userid;
+				
 				// Set user status to db.
+				userCtrl.updateStatus(data.userid, true);
 			}
 		});
 
 		socket.on('disconnect', function(){
 			console.log('Disconnected : ', socket.userid);
 			io.emit("users_status", {cmd:"LOGOUT", userid:socket.userid});
+			// Set user status to db.
+			userCtrl.updateStatus(socket.userid, false);
+
 			console.log( "Disconnected" );
 		})
 	});

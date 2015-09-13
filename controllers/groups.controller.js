@@ -31,7 +31,7 @@ exports.getAll = function(req, res, next){
 /* GET groups by userid */
 exports.getGroupsOfUser = function(req, res, next){
   Group.find({users : req.params.id})
-    .populate('users', 'name email')
+    .populate('users', 'name email online')
     .sort({updated_at:-1})
     .exec(function (err, groups) {
       if (err) return next(err);
@@ -41,7 +41,7 @@ exports.getGroupsOfUser = function(req, res, next){
 
 exports.getGroupsAndUsers = function(req, res, next){
   Group.find({users : req.params.id})
-    .populate('users', 'name email')
+    .populate('users', 'name email online')
     .sort({updated_at:-1})
     .exec(function (err, groups) {
       if (err) return next(err);
@@ -134,7 +134,7 @@ exports.delete = function(req, res, next) {
 
 var getGroupById = function(groupid, next){
   Group.findOne({_id : groupid})
-    .populate('users', 'name email')
+    .populate('users', 'name email online')
     .exec(function (err, group) {
       if (err) return next(err);
       next(group);
