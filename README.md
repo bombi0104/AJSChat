@@ -35,3 +35,10 @@ Using https://github.com/Unitech/pm2
 npm install pm2 -g
 
 pm2 start bin/www
+
+
+==============
+How to use https inteadof git
+git config --global url."https://".insteadOf git://
+
+
